@@ -1,0 +1,75 @@
+Scenario ID,Scenario Name,Type,Section,Quality Category,File
+BP-IR-01,Verifying Policy Answer Accuracy,Business-Problem,Information Retrieval & Policy Q&A,Business Scenario Quality,business-problem-scenarios/information-retrieval-and-policy-qa.md
+BP-IR-02,Testing Answer Personalization by User Context,Business-Problem,Information Retrieval & Policy Q&A,Business Scenario Quality,business-problem-scenarios/information-retrieval-and-policy-qa.md
+BP-IR-03,Validating Source Attribution,Business-Problem,Information Retrieval & Policy Q&A,Business Scenario Quality,business-problem-scenarios/information-retrieval-and-policy-qa.md
+BP-IR-04,Testing Answer Currency,Business-Problem,Information Retrieval & Policy Q&A,Business Scenario Quality,business-problem-scenarios/information-retrieval-and-policy-qa.md
+BP-IR-05,Handling Ambiguous or Broad Queries,Business-Problem,Information Retrieval & Policy Q&A,Business Scenario Quality,business-problem-scenarios/information-retrieval-and-policy-qa.md
+BP-IR-06,Negative Test: Incorrect Source Retrieval,Business-Problem,Information Retrieval & Policy Q&A,Business Scenario Quality,business-problem-scenarios/information-retrieval-and-policy-qa.md
+BP-TS-01,Verifying Diagnostic Step Accuracy,Business-Problem,Troubleshooting & Guided Diagnosis,Business Scenario Quality,business-problem-scenarios/troubleshooting-and-guided-diagnosis.md
+BP-TS-02,Testing Platform-Aware Troubleshooting,Business-Problem,Troubleshooting & Guided Diagnosis,Business Scenario Quality,business-problem-scenarios/troubleshooting-and-guided-diagnosis.md
+BP-TS-03,Validating Escalation Judgment,Business-Problem,Troubleshooting & Guided Diagnosis,Business Scenario Quality,business-problem-scenarios/troubleshooting-and-guided-diagnosis.md
+BP-TS-04,Testing Multi-Step Diagnosis Completeness,Business-Problem,Troubleshooting & Guided Diagnosis,Business Scenario Quality,business-problem-scenarios/troubleshooting-and-guided-diagnosis.md
+BP-TS-05,Handling Intermittent or Unreproducible Issues,Business-Problem,Troubleshooting & Guided Diagnosis,Business Scenario Quality,business-problem-scenarios/troubleshooting-and-guided-diagnosis.md
+BP-TS-06,Negative Test: Incorrect Diagnosis Path,Business-Problem,Troubleshooting & Guided Diagnosis,Business Scenario Quality,business-problem-scenarios/troubleshooting-and-guided-diagnosis.md
+BP-RS-01,Verifying Request Execution Accuracy,Business-Problem,Request Submission & Task Execution,Business Scenario Quality,business-problem-scenarios/request-submission-and-task-execution.md
+BP-RS-02,Testing Confirmation and Acknowledgment,Business-Problem,Request Submission & Task Execution,Business Scenario Quality,business-problem-scenarios/request-submission-and-task-execution.md
+BP-RS-03,Validating Error Handling During Submission,Business-Problem,Request Submission & Task Execution,Business Scenario Quality,business-problem-scenarios/request-submission-and-task-execution.md
+BP-RS-04,Testing Partial Completion Scenarios,Business-Problem,Request Submission & Task Execution,Business Scenario Quality,business-problem-scenarios/request-submission-and-task-execution.md
+BP-RS-05,Verifying Authorization and Permission Checks,Business-Problem,Request Submission & Task Execution,Business Scenario Quality,business-problem-scenarios/request-submission-and-task-execution.md
+BP-RS-06,Negative Test: Unauthorized Action Prevention,Business-Problem,Request Submission & Task Execution,Business Scenario Quality,business-problem-scenarios/request-submission-and-task-execution.md
+BP-PN-01,Verifying Step Sequence Accuracy,Business-Problem,Process Navigation & Multi-Step Guidance,Business Scenario Quality,business-problem-scenarios/process-navigation-and-multistep-guidance.md
+BP-PN-02,Testing Role-Aware Guidance,Business-Problem,Process Navigation & Multi-Step Guidance,Business Scenario Quality,business-problem-scenarios/process-navigation-and-multistep-guidance.md
+BP-PN-03,Validating Completeness of Guidance,Business-Problem,Process Navigation & Multi-Step Guidance,Business Scenario Quality,business-problem-scenarios/process-navigation-and-multistep-guidance.md
+BP-PN-04,Testing Branching Paths,Business-Problem,Process Navigation & Multi-Step Guidance,Business Scenario Quality,business-problem-scenarios/process-navigation-and-multistep-guidance.md
+BP-PN-05,Handling Mid-Process Questions,Business-Problem,Process Navigation & Multi-Step Guidance,Business Scenario Quality,business-problem-scenarios/process-navigation-and-multistep-guidance.md
+BP-PN-06,Negative Test: Incorrect Step Order,Business-Problem,Process Navigation & Multi-Step Guidance,Business Scenario Quality,business-problem-scenarios/process-navigation-and-multistep-guidance.md
+BP-TR-01,Verifying Classification Accuracy,Business-Problem,Triage & Routing,Business Scenario Quality,business-problem-scenarios/triage-and-routing.md
+BP-TR-02,Testing Context Preservation During Handoff,Business-Problem,Triage & Routing,Business Scenario Quality,business-problem-scenarios/triage-and-routing.md
+BP-TR-03,Validating Priority Assignment,Business-Problem,Triage & Routing,Business Scenario Quality,business-problem-scenarios/triage-and-routing.md
+BP-TR-04,Handling Ambiguous Triage Scenarios,Business-Problem,Triage & Routing,Business Scenario Quality,business-problem-scenarios/triage-and-routing.md
+BP-TR-05,Negative Test: Misrouted Request,Business-Problem,Triage & Routing,Business Scenario Quality,business-problem-scenarios/triage-and-routing.md
+CAP-KG-01,Verifying Retrieval from Correct Sources,Capability,Knowledge Grounding & Accuracy,Architecture,capability-scenarios/knowledge-grounding-and-accuracy.md
+CAP-KG-02,Testing Handling of Missing Sources,Capability,Knowledge Grounding & Accuracy,Architecture,capability-scenarios/knowledge-grounding-and-accuracy.md
+CAP-KG-03,Validating Behavior with Conflicting Sources,Capability,Knowledge Grounding & Accuracy,Architecture,capability-scenarios/knowledge-grounding-and-accuracy.md
+CAP-KG-04,Testing Hallucination Prevention,Capability,Knowledge Grounding & Accuracy,Architecture,capability-scenarios/knowledge-grounding-and-accuracy.md
+CAP-KG-05,Verifying Multi-Source Synthesis,Capability,Knowledge Grounding & Accuracy,Architecture,capability-scenarios/knowledge-grounding-and-accuracy.md
+CAP-KG-06,Negative Test: Ungrounded Claims,Capability,Knowledge Grounding & Accuracy,Architecture,capability-scenarios/knowledge-grounding-and-accuracy.md
+CAP-TI-01,Verifying Tool Invocation,Capability,Tool & Connector Invocations,Architecture,capability-scenarios/tool-and-connector-invocations.md
+CAP-TI-02,Negative Test: Tool Should NOT Be Called,Capability,Tool & Connector Invocations,Architecture,capability-scenarios/tool-and-connector-invocations.md
+CAP-TI-03,Verifying Input Collection,Capability,Tool & Connector Invocations,Architecture,capability-scenarios/tool-and-connector-invocations.md
+CAP-TI-04,Verifying Tool Output in Response,Capability,Tool & Connector Invocations,Architecture,capability-scenarios/tool-and-connector-invocations.md
+CAP-TI-05,Testing Error Handling on Tool Failure,Capability,Tool & Connector Invocations,Architecture,capability-scenarios/tool-and-connector-invocations.md
+CAP-TI-06,Verifying Multi-Tool Orchestration,Capability,Tool & Connector Invocations,Architecture,capability-scenarios/tool-and-connector-invocations.md
+CAP-TR-01,Verifying Direct Topic Match,Capability,Trigger Routing,Architecture,capability-scenarios/trigger-routing.md
+CAP-TR-02,Testing Disambiguation Between Similar Topics,Capability,Trigger Routing,Architecture,capability-scenarios/trigger-routing.md
+CAP-TR-03,Validating Fallback/Default Routing,Capability,Trigger Routing,Architecture,capability-scenarios/trigger-routing.md
+CAP-TR-04,Testing Topic Handoff,Capability,Trigger Routing,Architecture,capability-scenarios/trigger-routing.md
+CAP-TR-05,Negative Test: Incorrect Topic Triggered,Capability,Trigger Routing,Architecture,capability-scenarios/trigger-routing.md
+CAP-CV-01,Verifying Required Disclaimer Inclusion,Capability,Compliance & Verbatim Content,Compliance & Safety,capability-scenarios/compliance-and-verbatim-content.md
+CAP-CV-02,Testing Verbatim Policy Language,Capability,Compliance & Verbatim Content,Compliance & Safety,capability-scenarios/compliance-and-verbatim-content.md
+CAP-CV-03,Validating Mandatory Warning Presence,Capability,Compliance & Verbatim Content,Compliance & Safety,capability-scenarios/compliance-and-verbatim-content.md
+CAP-CV-04,Testing Regulatory Compliance Language,Capability,Compliance & Verbatim Content,Compliance & Safety,capability-scenarios/compliance-and-verbatim-content.md
+CAP-CV-05,Verifying Conditional Compliance,Capability,Compliance & Verbatim Content,Compliance & Safety,capability-scenarios/compliance-and-verbatim-content.md
+CAP-CV-06,Negative Test: Prohibited Content,Capability,Compliance & Verbatim Content,Compliance & Safety,capability-scenarios/compliance-and-verbatim-content.md
+CAP-SB-01,Testing PII Protection,Capability,Safety & Boundary Enforcement,Compliance & Safety,capability-scenarios/safety-and-boundary-enforcement.md
+CAP-SB-02,Verifying Adversarial Input Resistance,Capability,Safety & Boundary Enforcement,Compliance & Safety,capability-scenarios/safety-and-boundary-enforcement.md
+CAP-SB-03,Testing Scope Boundary Enforcement,Capability,Safety & Boundary Enforcement,Compliance & Safety,capability-scenarios/safety-and-boundary-enforcement.md
+CAP-SB-04,Validating Data Leakage Prevention,Capability,Safety & Boundary Enforcement,Compliance & Safety,capability-scenarios/safety-and-boundary-enforcement.md
+CAP-SB-05,Testing Prompt Injection Resistance,Capability,Safety & Boundary Enforcement,Compliance & Safety,capability-scenarios/safety-and-boundary-enforcement.md
+CAP-SB-06,Negative Test: Out-of-Scope Response,Capability,Safety & Boundary Enforcement,Compliance & Safety,capability-scenarios/safety-and-boundary-enforcement.md
+CAP-TQ-01,Evaluating Response Clarity and Structure,Capability,Tone Helpfulness & Response Quality,Subjective Preferences,capability-scenarios/tone-helpfulness-and-response-quality.md
+CAP-TQ-02,Testing Empathy in Sensitive Contexts,Capability,Tone Helpfulness & Response Quality,Subjective Preferences,capability-scenarios/tone-helpfulness-and-response-quality.md
+CAP-TQ-03,Validating Appropriate Formality Level,Capability,Tone Helpfulness & Response Quality,Subjective Preferences,capability-scenarios/tone-helpfulness-and-response-quality.md
+CAP-TQ-04,Testing Completeness of Responses,Capability,Tone Helpfulness & Response Quality,Subjective Preferences,capability-scenarios/tone-helpfulness-and-response-quality.md
+CAP-TQ-05,Evaluating Conciseness vs. Thoroughness Balance,Capability,Tone Helpfulness & Response Quality,Subjective Preferences,capability-scenarios/tone-helpfulness-and-response-quality.md
+CAP-TQ-06,Testing Consistency Across Conversation Turns,Capability,Tone Helpfulness & Response Quality,Subjective Preferences,capability-scenarios/tone-helpfulness-and-response-quality.md
+CAP-GF-01,Testing Appropriate Acknowledgment of Limitations,Capability,Graceful Failure & Escalation,Architecture + Edge Cases,capability-scenarios/graceful-failure-and-escalation.md
+CAP-GF-02,Verifying Human Handoff Triggers,Capability,Graceful Failure & Escalation,Architecture + Edge Cases,capability-scenarios/graceful-failure-and-escalation.md
+CAP-GF-03,Validating Escalation Context Preservation,Capability,Graceful Failure & Escalation,Architecture + Edge Cases,capability-scenarios/graceful-failure-and-escalation.md
+CAP-GF-04,Testing Graceful Degradation Under Uncertainty,Capability,Graceful Failure & Escalation,Architecture + Edge Cases,capability-scenarios/graceful-failure-and-escalation.md
+CAP-GF-05,Negative Test: Agent Should Not Escalate,Capability,Graceful Failure & Escalation,Architecture + Edge Cases,capability-scenarios/graceful-failure-and-escalation.md
+CAP-RT-01,Baseline Comparison After Knowledge Source Updates,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
+CAP-RT-02,Regression Check After Topic or Flow Changes,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
+CAP-RT-03,Regression Check After Tool Configuration Changes,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
+CAP-RT-04,Full-Suite Regression Before Publishing,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
+CAP-RT-05,Targeted Regression for Specific Capability,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md

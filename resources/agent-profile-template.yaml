@@ -1,0 +1,127 @@
+# =============================================================================
+# Agent Profile Template
+# =============================================================================
+# Fill out this template to capture your Copilot Studio agent's configuration.
+# This profile serves as input for generating tailored evaluation sets.
+#
+# How to fill this out:
+#   - Export your agent as a Power Platform solution and extract the details
+#   - See resources/agent-profile-guide.md for step-by-step instructions
+#   - Fields marked (from export) can be extracted from solution files
+#   - Fields marked (manual) require your own description
+# =============================================================================
+
+# --- Agent Overview -----------------------------------------------------------
+
+agent:
+  name: ""                    # (from export) Agent display name
+  description: ""             # (manual) What the agent does in 1-2 sentences
+  purpose: ""                 # (manual) The business problem this agent solves
+  target_users: ""            # (manual) Who uses it — employees, customers, partners, etc.
+  channels:                   # (from export) Where the agent is deployed
+    - ""                      # e.g., Microsoft Teams, Web Chat, Custom Website
+
+# --- System Instructions ------------------------------------------------------
+# Paste the full system instructions / system message configured in Copilot Studio.
+# This is the most important field for eval generation — it defines the agent's
+# behavioral boundaries, persona, and rules.
+
+instructions: |
+  # Paste your agent's system instructions here
+
+
+# --- Knowledge Sources --------------------------------------------------------
+# List every knowledge source configured in the agent.
+# For each source, describe what content it contains and what topics it covers.
+
+knowledge_sources:
+  - name: ""                  # (from export) Source name as configured in Copilot Studio
+    type: ""                  # (from export) SharePoint | Uploaded File | Website | Dataverse | Custom
+    url_or_path: ""           # (from export) SharePoint URL, file name, website URL, etc.
+    description: ""           # (manual) What content this source contains
+    key_content_areas:        # (manual) Main topics/subjects covered — used for scenario mapping
+      - ""
+
+  # - name: ""
+  #   type: ""
+  #   url_or_path: ""
+  #   description: ""
+  #   key_content_areas:
+  #     - ""
+
+
+# --- Topics -------------------------------------------------------------------
+# List the agent's topics (conversation flows).
+# Include trigger phrases and any tools/actions the topic calls.
+
+topics:
+  - name: ""                  # (from export) Topic name
+    description: ""           # (manual) What this topic handles
+    trigger_phrases:          # (from export) Sample phrases that activate this topic
+      - ""
+    connected_actions:        # (from export) Tools, flows, or connectors this topic invokes
+      - ""
+
+  # - name: ""
+  #   description: ""
+  #   trigger_phrases:
+  #     - ""
+  #   connected_actions:
+  #     - ""
+
+
+# --- Tools & Actions ----------------------------------------------------------
+# List every tool, Power Automate flow, connector, or plugin the agent can invoke.
+# These map directly to Capability Use test cases in the eval set.
+
+tools:
+  - name: ""                  # (from export) Tool/flow name as configured
+    type: ""                  # (from export) Power Automate Flow | Connector | Plugin | HTTP Action
+    description: ""           # (manual) What this tool does
+    trigger_condition: ""     # (manual) When/why this tool should be invoked
+    parameters:               # (from export) Input parameters the tool accepts
+      - name: ""
+        type: ""              # string, number, boolean, etc.
+        description: ""
+    returns: ""               # (manual) What the tool returns (confirmation, data, status, etc.)
+
+  # - name: ""
+  #   type: ""
+  #   description: ""
+  #   trigger_condition: ""
+  #   parameters:
+  #     - name: ""
+  #       type: ""
+  #       description: ""
+  #   returns: ""
+
+
+# --- Authentication & User Context -------------------------------------------
+# How users are authenticated and what user-specific data is available.
+# This determines whether personalization test cases apply.
+
+authentication:
+  type: ""                    # None | Entra ID (Azure AD) | Custom | Other
+  user_context_variables:     # Variables available during conversation
+    - ""                      # e.g., user.displayName, user.email, user.department
+
+
+# --- Scope & Boundaries -------------------------------------------------------
+# What the agent should and should NOT do.
+# Used to generate safety and boundary enforcement test cases.
+
+scope:
+  in_scope:                   # What the agent is designed to handle
+    - ""
+  out_of_scope:               # What the agent should decline or redirect
+    - ""
+  sensitive_data_types:       # Types of sensitive data the agent may encounter
+    - ""                      # e.g., PII, financial data, health records, credentials
+
+
+# --- Additional Context (Optional) --------------------------------------------
+# Any other details relevant to evaluation — compliance requirements, SLAs,
+# escalation policies, multi-language support, etc.
+
+notes: |
+
