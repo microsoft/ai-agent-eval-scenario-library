@@ -46,7 +46,7 @@ This library includes a built-in AI assistant and two skills for [Claude Code](h
 
 This is the most common workflow — going from "I have an agent" to "I have a ready-to-use eval set."
 
-**Step 1: Describe your agent** (or provide a profile)
+**Step 1: Describe your agent** (or provide a file with the agent information)
 
 Tell Claude what your agent does. The more detail you provide, the better the output:
 - What business problems it solves
