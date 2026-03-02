@@ -26,7 +26,73 @@ The library organizes scenarios into two complementary categories:
 
 ---
 
-## How to Use This Library
+## Using This Library with Claude Code
+
+This library includes a built-in AI assistant and two skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code). When you open this repo in Claude Code, Claude automatically understands the library's structure, concepts, and scenarios — and can guide you through the entire evaluation workflow interactively.
+
+### Quick Start with Claude Code
+
+1. **Open this repo** in Claude Code (navigate to this directory in your terminal and run `claude`)
+2. **Ask Claude** what you need — it will use the right skill automatically:
+
+| What you want to do | Just say... | What happens |
+|---------------------|------------|-------------|
+| Find the right scenarios for your agent | *"What should I evaluate for my HR policy agent?"* | Claude asks about your agent, then recommends scenarios with rationale |
+| Build a complete eval set | *"Build me an eval set for this agent"* | Claude walks you through: agent profile → scenario selection → test case generation → formatted output |
+| Understand evaluation methods | *"When should I use Keyword Match vs Compare Meaning?"* | Claude explains the method selection framework with examples |
+| Explore a specific scenario | *"Tell me about the safety and boundary enforcement scenarios"* | Claude reads the scenario file and presents the patterns, examples, and tips |
+
+### Step-by-Step: Generate an Eval Set with Claude Code
+
+This is the most common workflow — going from "I have an agent" to "I have a ready-to-use eval set."
+
+**Step 1: Describe your agent** (or provide a profile)
+
+Tell Claude what your agent does. The more detail you provide, the better the output:
+- What business problems it solves
+- What knowledge sources it uses (SharePoint, uploaded files, websites)
+- What tools/flows it calls (Power Automate, connectors, APIs)
+- Who uses it (internal employees, external customers)
+- Any sensitive data it handles
+
+Or, if you have a Copilot Studio solution export (.zip), share it and Claude will extract the profile for you.
+
+**Step 2: Review scenario recommendations**
+
+Claude maps your agent's capabilities to the library's scenarios and presents a recommendation like:
+
+> *"Based on your agent, I recommend 8 scenarios: Information Retrieval, Request Submission, Triage & Routing (business-problem), plus Knowledge Grounding, Tool Invocations, Safety, Tone & Quality, Regression Testing (capability). Here's why each was selected..."*
+
+Adjust the selection if needed — add or remove scenarios.
+
+**Step 3: Generate test cases**
+
+Claude generates tailored test cases for each scenario, using your agent's actual knowledge sources, tools, and topics — not generic placeholders. Each test case includes:
+- Sample user input
+- Expected value (keywords, ideal answer, or tool/source name)
+- Evaluation methods (2 per test case)
+- Priority level
+
+**Step 4: Get your eval set document**
+
+Claude outputs a structured eval set as a markdown file (or Word document if you ask), ready to import into Copilot Studio's evaluation feature. Includes coverage summary and recommended pass thresholds.
+
+### Available Skills
+
+| Skill | Trigger | What It Does |
+|-------|---------|-------------|
+| **eval-scenario-guide** | *"What should I evaluate?"*, *"find scenarios"*, *"evaluation methods"* | Navigates the library, recommends scenarios, explains methodology |
+| **eval-set-builder** | *"Build eval set"*, *"create test cases"*, *"agent profile"* | Full workflow from agent profile to finished eval set document |
+
+> **Companion skill — Failure Triage:** If your evals are failing and you need to diagnose root causes, the `eval-failure-triage` skill is available in the companion [Failure Triage & Remediation Playbook](https://github.com/TODO-link) project. It helps interpret scores, classify root causes (eval setup / agent config / platform limitation), and find specific remediation actions.
+
+### Without Claude Code
+
+You can use this library entirely without Claude Code — the sections below walk you through the same process manually.
+
+---
+
+## How to Use This Library (Manual)
 
 ### Step 1: Orient — Find Your Starting Point
 
@@ -121,7 +187,19 @@ Every scenario follows a consistent structure:
 ```
 ai-agent-eval-scenario-library/
 │
-├── README.md ← You are here
+├── README.md                      ← You are here
+├── CLAUDE.md                      ← Claude Code agent configuration
+│
+├── .claude/skills/                ← Claude Code skills
+│   ├── eval-scenario-guide/       ← "What should I evaluate?" skill
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       └── method-selection-guide.md
+│   └── eval-set-builder/          ← "Build me an eval set" skill
+│       ├── SKILL.md
+│       └── references/
+│           ├── agent-profile-guide.md
+│           └── eval-generation-prompt.md
 │
 ├── business-problem-scenarios/    ← Scenarios grounded in business value
 │   ├── README.md

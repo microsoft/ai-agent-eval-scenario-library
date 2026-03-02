@@ -410,6 +410,9 @@ FodyWeavers.xsd
 # Built Visual Studio Code Extensions
 *.vsix
 
+# Feedback file (internal notes, not for public repo)
+feedback.md
+
 # Windows Installer files from build outputs
 *.cab
 *.msi
