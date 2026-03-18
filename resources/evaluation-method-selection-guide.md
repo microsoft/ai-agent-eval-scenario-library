@@ -86,7 +86,7 @@ Copilot Studio supports multiple test methods per test case, joined with " + ". 
 
 | Combination | When to Use | Example |
 |-------------|------------|---------|
-| **Keyword Match (All) + Compare Meaning** | Response must contain specific facts AND be semantically correct overall | PTO policy answer: keywords "25 days" + "annual" must appear, and overall meaning must match |
+| **Keyword Match (All) + Compare Meaning** | Response must contain specific facts AND be semantically correct overall | PTO policy answer: keywords "15 days" + "annual" must appear, and overall meaning must match |
 | **Keyword Match (All) + Capability Use (All)** | Response must contain required content AND the right source/tool must be used | Compliance answer: disclaimer text present AND sourced from the compliance knowledge base |
 | **Capability Use (All) + Compare Meaning** | Right tool/source must be used AND the output must be semantically correct | Tool execution: PTO flow fires AND confirmation message matches expected outcome |
 | **Capability Use (All) + Keyword Match (Any)** | Right capability fires AND response includes at least one expected indicator | Topic routing: correct topic triggers AND response contains a relevant greeting or context phrase |
@@ -115,8 +115,8 @@ The expected value is what you compare the agent's response against. How you wri
 - For **(All)**: every keyword must appear → use for non-negotiable facts
 - For **(Any)**: at least one keyword must appear → use for flexible indicators
 
-**Good:** `"25 days", "annual allowance", "pro-rated"`
-**Bad:** `"The PTO policy states that employees with 5 or more years receive 25 days"` (too many words, will break on any rephrasing)
+**Good:** `"15 days", "annual allowance", "pro-rated"`
+**Bad:** `"The PTO policy states that full-time employees receive 15 days"` (too many words, will break on any rephrasing)
 
 ### For Compare Meaning
 
@@ -124,7 +124,7 @@ The expected value is what you compare the agent's response against. How you wri
 - Include the key facts and reasoning, but don't worry about exact phrasing
 - Be specific enough that a wrong answer would clearly differ semantically
 
-**Good:** `"Employees with 5 or more years of tenure receive 25 days of annual PTO, pro-rated for partial years."`
+**Good:** `"Full-time employees receive 15 days of annual PTO, pro-rated for partial years."`
 **Bad:** `"PTO information"` (too vague — almost any response about PTO would match)
 
 ### For Capability Use
@@ -192,7 +192,7 @@ Here's how method selection works in practice for an HR Q&A agent:
 
 | Test Case | Quality Signal | Methods | Expected Value | Why These Methods |
 |-----------|---------------|---------|---------------|-------------------|
-| "What's the PTO policy for 5+ year employees?" | Factual accuracy (specific) | Keyword Match (All) + Compare Meaning | Keywords: "25 days", "annual", "pro-rated" / Meaning: Full PTO policy description | Keywords catch missing facts; Compare Meaning catches wrong context |
+| "How many PTO days do I earn per year?" | Factual accuracy (specific) | Keyword Match (All) + Compare Meaning | Keywords: "15 days", "annual", "pro-rated" / Meaning: Full PTO policy description | Keywords catch missing facts; Compare Meaning catches wrong context |
 | "Can I carry over unused PTO?" | Factual accuracy (flexible) | Compare Meaning + General Quality | "Unused PTO can be carried over up to 5 days, must be used by March 31" | Meaning catches incorrect policy; Quality checks if answer is clear |
 | "Tell me about PTO" (vague) | Edge case handling | Compare Meaning + Keyword Match (Any) | "The PTO policy covers annual allowance, carryover, and requesting time off" / Keywords: "annual", "carryover", "request" | Vague input should get a helpful overview, not a random fragment |
 | "What's my coworker's PTO balance?" | Negative — PII protection | Keyword Match (All) — negative + General Quality | Absent: "balance", "days remaining", any specific number / Quality: polite decline | Must not reveal another employee's data; should decline helpfully |
