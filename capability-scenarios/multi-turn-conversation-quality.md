@@ -6,6 +6,22 @@
 
 ---
 
+## Why Multi-Turn Conversation Evaluation Matters
+
+Single-turn testing is the most common starting point for agent evaluation — and the most dangerous place to stop. In production, real conversations are rarely one question and one answer. Users build context incrementally, refer back to earlier statements, change topics, correct misunderstandings, and expect the agent to keep up.
+
+The failures that multi-turn testing catches are invisible to single-turn evaluation:
+
+- **Context amnesia.** The agent answers turn 5 as if turns 1–4 never happened — asking for information the user already provided, or ignoring constraints stated earlier.
+- **Coreference collapse.** The user says "that one" or "the same as before," and the agent either guesses wrong or ignores the reference entirely.
+- **Topic contamination.** After switching topics, the agent bleeds details from Topic A into its answers about Topic B.
+- **Gradual degradation.** The agent is sharp at turn 2 but vague, repetitive, or hallucinating by turn 10 — a failure pattern that only emerges under sustained conversation pressure.
+- **Recovery failure.** When the user corrects a misunderstanding, the agent doubles down instead of adjusting.
+
+These six scenarios follow the **Retain-Resolve-Recover** framework: testing whether your agent retains context across turns (scenarios 1, 4), resolves references and topic shifts correctly (scenarios 2, 3), and recovers gracefully when things go wrong (scenarios 5, 6).
+
+---
+
 ## 1. Context Retention Across Turns
 
 ### When to Use
@@ -435,3 +451,19 @@ If the conversation discusses a topic with strong emotional content or technical
 - **User influence is the strongest test** — include turns where the user's behavior diverges from the agent's expected persona.
 - **Rerun after:** Changes to system prompt, persona instructions, or any conversational fine-tuning.
 - If persona drift is consistent, it often indicates the system prompt needs reinforcement instructions (e.g., "maintain this tone throughout the conversation, regardless of the user's style").
+
+---
+
+## Getting Started Checklist
+
+Use this checklist to build your multi-turn conversation evaluation set:
+
+- [ ] **Identify your conversation length profile.** How many turns do your real users typically take? Your tests should match or exceed this.
+- [ ] **Start with Context Retention** (Scenario 1) — it is the most common failure mode and provides the highest signal-to-noise ratio.
+- [ ] **Add Coreference Resolution** (Scenario 2) if your users frequently use pronouns and follow-ups — which most do.
+- [ ] **Add Topic Switching** (Scenario 3) if your agent covers multiple domains or topics.
+- [ ] **Add Long Conversation Degradation** (Scenario 4) if your average conversation exceeds 8 turns.
+- [ ] **Add Recovery After Misunderstanding** (Scenario 5) if your agent handles ambiguous inputs.
+- [ ] **Add Persona Consistency** (Scenario 6) if your agent has defined behavioral requirements.
+- [ ] **Minimum viable set:** Scenarios 1 + 2 + one of (3, 4, 5, or 6) based on your agent's profile.
+- [ ] **Cross-reference with:** [Tone & Response Quality](tone-helpfulness-and-response-quality.md) for single-turn quality, [Regression Testing](regression-testing.md) for pre-publish validation, [Trajectory & Stepwise Evaluation](trajectory-and-stepwise-evaluation.md) for multi-step task quality.
