@@ -302,4 +302,4 @@ Before deploying a classification grader:
 
 ---
 
-[Back to library](../README.md) | [Evaluation method selection guide](evaluation-method-selection-guide.md)
+[Back to library](../README.md)
