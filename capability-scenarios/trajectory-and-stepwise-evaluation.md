@@ -33,7 +33,9 @@ Use this scenario when:
 - You have observed the agent taking unnecessary detours or calling tools in the wrong order
 - Regulatory or business rules require specific steps to happen in a specific sequence
 
-> **Related scenarios:** For testing whether the correct tool fires at all, see [Tool & Connector Invocations](tool-and-connector-invocations.md). For testing whether multi-turn context is preserved, see [Multi-Turn Conversation Quality](multi-turn-conversation-quality.md). This scenario goes deeper — it evaluates the full chain of actions across a task.
+> **Related scenarios:** For testing whether the correct tool fires at all, see [Tool & Connector Invocations](tool-and-connector-invocations.md). For testing whether conversation quality and tone are preserved across turns, see [Tone, Helpfulness & Response Quality](tone-helpfulness-and-response-quality.md). This scenario goes deeper — it evaluates the full chain of actions across a task.
+>
+> **How this differs from [Tool & Connector Invocations](tool-and-connector-invocations.md):** That scenario tests whether the _correct tool fires_ for a given request. This scenario tests the _entire sequence_ of tool calls, reasoning steps, and decisions across a multi-step task — including their order and dependencies.
 
 ### Recommended Test Methods
 
@@ -43,6 +45,8 @@ Use this scenario when:
 | Trajectory Match (In-Order) | Verify all required steps occur in the correct order, allowing extra steps in between |
 | Trajectory Match (Any-Order) | Verify all required steps are present regardless of order — for tasks where sequence is flexible |
 | Capability Use (All) | As a lighter check, confirm that all expected tools were invoked |
+
+> **Note on Trajectory Match methods:** These are evaluation patterns specific to trajectory evaluation, not built-in platform test methods. To implement them, define your expected action sequence and use a custom grader or LLM-as-judge prompt that compares the agent's logged tool-call sequence against your reference. "Strict" requires an exact match, "In-Order" allows extra steps between required ones, and "Any-Order" only checks that all required steps appear somewhere in the trajectory.
 
 > **Tip:** Start with In-Order matching rather than Strict matching. Strict matching is brittle — it fails if the agent adds a reasonable but unexpected step (like a confirmation check). In-Order matching verifies the critical path without penalizing harmless additions.
 
@@ -73,11 +77,11 @@ Define actions the agent must _never_ take during a task. For example: the agent
 
 ### Practical Examples
 
-| # | Scenario | Task | Expected Trajectory | Method |
-|---|----------|------|-------------------|--------|
-| 1 | Expense submission follows policy | "Submit my $450 dinner expense from the NYC client meeting" | `validate_receipt → check_expense_policy → calculate_reimbursement → submit_expense` | Trajectory Match (Strict) |
+| # | Scenario | Sample Input | Expected Value / Capability | Method |
+|---|----------|-------------|---------------------------|--------|
+| 1 | Expense submission follows policy | "Submit my $450 dinner expense from the NYC client meeting" | Trajectory: `validate_receipt → check_expense_policy → calculate_reimbursement → submit_expense` | Trajectory Match (Strict) |
 | 2 | Order fulfillment hits all checkpoints | "Process order #12345 for shipping" | Must include: `verify_inventory`, `charge_payment`, `create_shipping_label` (any order) | Trajectory Match (Any-Order) |
-| 3 | Password reset follows security protocol | "I need to reset my password" | `verify_identity → check_security_questions → generate_reset_link → send_notification` (in order) | Trajectory Match (In-Order) |
+| 3 | Password reset follows security protocol | "I need to reset my password" | Trajectory (in order): `verify_identity → check_security_questions → generate_reset_link → send_notification` (in order) | Trajectory Match (In-Order) |
 | 4 | Read-only query avoids mutations | "What's the status of my order?" | No calls to `update_order`, `cancel_order`, or `modify_order` | Forbidden Actions check |
 | 5 | Authentication before data access | "Show me the customer's payment history" | `authenticate_user` must precede `query_payment_history` | Trajectory Match (In-Order) |
 
@@ -114,6 +118,8 @@ Use this scenario when:
 | Keyword Match (All) | Verify specific parameter values appear in tool call arguments |
 | LLM-as-Judge (per step) | Use an LLM to assess whether each reasoning step is logically sound |
 
+> **Note on Step-Level Grading:** This is a custom evaluation pattern where you build a grader that scores each step in the agent's trajectory independently (correct tool, correct parameters, correct reasoning). Implement it using an LLM-as-judge prompt or a deterministic checker that receives each step's context and outputs a score.
+
 > **Tip:** Step-level correctness grading enables **partial credit scoring**. An agent that completes 4 of 5 steps correctly scores 0.8, not 0.0. This is far more useful for diagnosing regressions and guiding improvement than binary pass/fail.
 
 ### Setup Steps
@@ -142,12 +148,12 @@ Score each step as correct (1), partially correct (0.5), or incorrect (0). The t
 
 ### Practical Examples
 
-| # | Scenario | Step Under Test | Expected Parameters | What to Check | Method |
-|---|----------|----------------|--------------------|----|--------|
-| 1 | Flight booking — date parsing | `search_flights` call | `origin: "SFO"`, `destination: "JFK"`, `date: "2026-04-15"` | Correct airports, correctly parsed date, not swapped | Parameter Validation |
-| 2 | Expense policy check — amount threshold | `check_policy` call | `amount: 450`, `category: "meals"`, `currency: "USD"` | Amount matches user input, category correctly inferred | Parameter Validation |
+| # | Scenario | Sample Input | Expected Value / Capability | Method |
+|---|----------|-------------|---------------------------|--------|
+| 1 | Flight booking — date parsing | "Book a flight from SFO to JFK on April 15" | `search_flights` called with `origin: "SFO"`, `destination: "JFK"`, `date: "2026-04-15"` (not swapped) | Parameter Validation |
+| 2 | Expense policy check — amount threshold | "Submit my $450 team dinner expense" | `check_policy` called with `amount: 450`, `category: "meals"`, `currency: "USD"` | Parameter Validation |
 | 3 | Reasoning about eligibility | Agent's reasoning step before decision | N/A — evaluate reasoning text | Does the agent correctly identify that the user is a contractor and apply contractor-specific rules? | LLM-as-Judge |
-| 4 | Multi-step calculation | Each arithmetic step | Intermediate values | Each calculation step produces the correct intermediate result | Step-Level Grading |
+| 4 | Multi-step calculation | "Calculate the total reimbursement for 3 meals at $45, $62, and $38" | Each intermediate arithmetic step produces correct values; final total is $145 | Step-Level Grading |
 
 ### Tips
 
@@ -215,13 +221,13 @@ Run the same task set against two agent configurations (e.g., different prompts,
 
 ### Practical Examples
 
-| # | Scenario | Task | Minimum Steps | What to Measure | Threshold |
-|---|----------|------|---------------|-----------------|-----------|
-| 1 | FAQ answered without tool calls | "What are your office hours?" | 1 (retrieve from knowledge) | Agent should not call any tools — direct knowledge retrieval | 0 tool calls |
+| # | Scenario | Sample Input | Expected Value / Capability | Method |
+|---|----------|-------------|---------------------------|--------|
+| 1 | FAQ answered without tool calls | "What are your office hours?" | 0 tool calls — agent answers from knowledge retrieval only | Step Count |
 | 2 | Order lookup efficiency | "What's the status of order #12345?" | 2 (authenticate + query) | Agent should not call `query_order` multiple times | ≤ 3 total steps |
-| 3 | Redundant re-verification | "Book a meeting room for tomorrow 2pm" | 3 (check availability + book + confirm) | Agent should not check availability twice | 0 redundant calls |
-| 4 | Token budget compliance | "Help me troubleshoot my VPN connection" | Varies | Total reasoning tokens should stay under 3,000 | < 3,000 tokens |
-| 5 | Comparative prompt efficiency | Same task set, two prompts | Same for both | Which prompt produces shorter trajectories at equal correctness? | Lower mean step count wins |
+| 3 | Redundant re-verification | "Book a meeting room for tomorrow 2pm" | 0 redundant calls; availability checked exactly once | Redundancy Detection |
+| 4 | Token budget compliance | "Help me troubleshoot my VPN connection" | Total reasoning tokens < 3,000 | Cost Tracking |
+| 5 | Comparative prompt efficiency | Same task set run with two prompt variants | Lower mean step count at equal correctness wins | Step Count (comparative) |
 
 ### Tips
 
@@ -286,13 +292,15 @@ Verify the agent does not retry the same failed action more than a reasonable nu
 
 ### Practical Examples
 
-| # | Scenario | Injected Failure | Expected Recovery | Method |
-|---|----------|-----------------|-------------------|--------|
-| 1 | API timeout recovery | `get_order_status` returns timeout | Agent retries once, then informs user of temporary unavailability | Fault Injection + Recovery Path |
-| 2 | Alternative tool fallback | Primary `search_flights` API returns error | Agent tries `backup_flight_search` API | Recovery Path Validation |
-| 3 | Graceful partial completion | 2 of 3 items in order are in stock, 1 is not | Agent processes available items and notifies user about the unavailable one | LLM-as-Judge |
-| 4 | No infinite retry loop | `send_email` consistently fails | Agent stops after 2–3 retries and escalates or reports failure | Loop Detection |
-| 5 | Data validation recovery | Tool returns malformed JSON | Agent handles the error and does not pass corrupted data to the next step | Fault Injection + Step-Level Grading |
+| # | Scenario | Sample Input | Expected Value / Capability | Method |
+|---|----------|-------------|---------------------------|--------|
+| 1 | API timeout recovery | "What’s the status of my order?" (with `get_order_status` returning timeout) | Agent retries once, then informs user of temporary unavailability | Fault Injection + Recovery Path |
+| 2 | Alternative tool fallback | "Find flights to NYC" (with primary `search_flights` API returning error) | Agent tries `backup_flight_search` API instead of failing immediately | Recovery Path Validation |
+| 3 | Graceful partial completion | "Process my order" (2 of 3 items in stock, 1 unavailable) | Agent processes available items and notifies user about the unavailable one | LLM-as-Judge |
+| 4 | No infinite retry loop | "Send the confirmation email" (with `send_email` consistently failing) | Agent stops after 2–3 retries and escalates or reports failure | Loop Detection |
+| 5 | Data validation recovery | "Look up my account" (tool returns malformed JSON) | Agent handles error gracefully; does not pass corrupted data to next step | Fault Injection + Step-Level Grading |
+
+> **How this differs from [Graceful Failure & Escalation](graceful-failure-and-escalation.md):** That scenario tests how the agent _communicates_ failures to the user (messaging, escalation paths, handoff quality). This scenario tests the agent’s _internal recovery behavior_ — whether it detects failures in its trajectory and adapts its plan before responding.
 
 ### Tips
 
@@ -348,12 +356,12 @@ Present the agent with slightly modified inputs and verify its reasoning adapts 
 
 ### Practical Examples
 
-| # | Scenario | Reasoning to Evaluate | Quality Dimension | Method |
-|---|----------|----------------------|------------------|--------|
-| 1 | Policy eligibility determination | Agent reasons about whether a contractor qualifies for benefits | Logical validity — does the reasoning correctly apply policy rules? | LLM-as-Judge + Rubric |
+| # | Scenario | Sample Input | Expected Value / Capability | Method |
+|---|----------|-------------|---------------------------|--------|
+| 1 | Policy eligibility determination | "Am I eligible for the health benefits program?" (user is a contractor) | Agent reasoning correctly applies contractor-specific policy rules; logical validity | LLM-as-Judge + Rubric |
 | 2 | Troubleshooting diagnosis | Agent's diagnostic reasoning chain | Completeness — does it consider all relevant causes before concluding? | LLM-as-Judge |
-| 3 | Plan-action alignment | Agent states a plan then executes it | Faithfulness — do the actions match the stated plan? | Faithfulness Check |
-| 4 | Budget-aware recommendation | Agent recommends products within stated budget | Relevance — does each reasoning step reference the budget constraint? | LLM-as-Judge + Rubric |
+| 3 | Plan-action alignment | "Help me book a flight and hotel for next week" | Agent stated plan matches actual tool-call sequence; faithfulness | Faithfulness Check |
+| 4 | Budget-aware recommendation | "Recommend a laptop under $800" | Each reasoning step references the budget constraint; relevance | LLM-as-Judge + Rubric |
 
 ### Tips
 
