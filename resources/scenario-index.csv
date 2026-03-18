@@ -78,3 +78,4 @@ CAP-MAS-02,Coordination Topology Comparison,Capability,Multi-Agent System Evalua
 CAP-MAS-03,Inter-Agent Conflict Resolution,Capability,Multi-Agent System Evaluation,Architecture,capability-scenarios/multi-agent-system-evaluation.md
 CAP-MAS-04,Fault Tolerance and Graceful Degradation,Capability,Multi-Agent System Evaluation,Architecture,capability-scenarios/multi-agent-system-evaluation.md
 CAP-MAS-05,Communication Efficiency and Token Budget,Capability,Multi-Agent System Evaluation,Architecture,capability-scenarios/multi-agent-system-evaluation.md
+CAP-MAS-06,Negative Test: Invalid Multi-Agent Delegation,Capability,Multi-Agent System Evaluation,Architecture,capability-scenarios/multi-agent-system-evaluation.md

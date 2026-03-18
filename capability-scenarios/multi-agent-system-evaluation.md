@@ -114,7 +114,7 @@ Use this scenario when:
 - You want to benchmark multiple framework implementations (LangGraph, AutoGen, CrewAI, Swarm) on the same tasks
 - You are considering migrating from one topology to another
 
-> **Related scenarios:** For evaluating individual agent performance within the topology, see [Trajectory & Stepwise Evaluation](trajectory-and-stepwise-evaluation.md). For cost efficiency of the overall system, see [Cost-Efficiency Evaluation](cost-efficiency-evaluation.md). This scenario evaluates the coordination structure itself.
+> **Related scenarios:** For evaluating individual agent performance within the topology, see [Regression Testing](regression-testing.md) (stepwise regression concepts). For cost efficiency of the overall system, see [Tool & Connector Invocations](tool-and-connector-invocations.md) (tool cost and efficiency). This scenario evaluates the coordination structure itself.
 
 ### Recommended Test Methods
 
@@ -124,6 +124,11 @@ Use this scenario when:
 | Token Count / Cost Tracking | Measure total tokens consumed, including inter-agent communication overhead |
 | Latency Measurement | Measure end-to-end and per-step latency to identify serialization bottlenecks |
 | Milestone Achievement Rate | Track completion of intermediate objectives (not just final success) |
+
+> **Test method definitions -- Scenario 2:**
+> - **Token Count / Cost Tracking:** Count the total tokens (input + output) consumed across all agents for a single task, separating task-work tokens from coordination tokens. Compare across topologies or protocol variants to identify cost differences.
+> - **Latency Measurement:** Record wall-clock time from request receipt to final response, as well as per-step durations. Identifies serialization bottlenecks where agents wait unnecessarily.
+> - **Milestone Achievement Rate:** Define intermediate checkpoints for a task (e.g., "data gathered," "analysis complete," "draft written") and measure what percentage are achieved. Captures partial progress that binary pass/fail metrics miss.
 
 > **Tip:** MultiAgentBench (ACL 2025) found that graph topologies outperform others for research and creative tasks, while star topologies are more efficient for structured workflows with a clear coordinator. There is no universally best topology — test yours against your actual workload.
 
@@ -258,7 +263,7 @@ Use this scenario when:
 - You need to meet availability SLAs despite individual agent unreliability
 - You are scaling to more agents and want to understand failure behavior at scale
 
-> **Related scenarios:** For testing single-agent error handling, see [Graceful Failure & Escalation](graceful-failure-and-escalation.md). For testing recovery across conversation turns, see [Multi-Turn Conversation Quality](multi-turn-conversation-quality.md). This scenario tests system-level resilience when agents within a multi-agent system fail.
+> **Related scenarios:** For testing single-agent error handling, see [Graceful Failure & Escalation](graceful-failure-and-escalation.md). For testing recovery across conversation turns, see [Tone, Helpfulness & Response Quality](tone-helpfulness-and-response-quality.md) (conversation quality). This scenario tests system-level resilience when agents within a multi-agent system fail.
 
 ### Recommended Test Methods
 
@@ -268,6 +273,11 @@ Use this scenario when:
 | Latency Measurement | Track recovery time — how long it takes the system to detect failure and activate fallback |
 | Quality Degradation Score | Compare output quality with all agents healthy vs. with one or more agents failed |
 | Cascade Failure Detection | Verify a single agent failure does not propagate to other agents |
+
+> **Test method definitions -- Scenario 4:**
+> - **Task Completion Rate (Under Failure):** Run the standard task suite with one or more agents intentionally disabled or erroring. The percentage of tasks that still produce an acceptable result is the completion rate under failure.
+> - **Quality Degradation Score:** Score output quality (via LLM-as-Judge or rubric) with all agents healthy, then re-score with agent(s) failed. The delta is the degradation score. Target: < 30% degradation for any single agent failure.
+> - **Cascade Failure Detection:** After injecting a failure in one agent, monitor all other agents for errors, timeouts, or quality drops. Any correlated failure in a non-failed agent indicates a cascade.
 
 > **Tip:** REALM-Bench found that most multi-agent frameworks handle "easy" failures (immediate errors) reasonably well, but struggle with "slow" failures — agents that respond with incorrect or partial results rather than explicit errors. Test both failure modes.
 
@@ -334,7 +344,7 @@ Use this scenario when:
 - You need to set and enforce token budgets per agent or per coordination step
 - You are evaluating whether a multi-agent approach is justified vs. a single-agent approach
 
-> **Related scenarios:** For general cost-efficiency evaluation, see [Cost-Efficiency Evaluation](cost-efficiency-evaluation.md). For evaluating response quality, see [Tone, Helpfulness & Response Quality](tone-helpfulness-and-response-quality.md). This scenario focuses specifically on _inter-agent_ communication overhead in multi-agent systems.
+> **Related scenarios:** For general cost-efficiency evaluation, see [Tool & Connector Invocations](tool-and-connector-invocations.md) (tool cost and efficiency). For evaluating response quality, see [Tone, Helpfulness & Response Quality](tone-helpfulness-and-response-quality.md). This scenario focuses specifically on _inter-agent_ communication overhead in multi-agent systems.
 
 ### Recommended Test Methods
 
@@ -344,6 +354,12 @@ Use this scenario when:
 | Coordination Overhead Ratio | Calculate: coordination tokens / total tokens. Track this metric across tasks |
 | Task Score Per Token | Measure task quality divided by total tokens — the efficiency metric |
 | Information Loss Rate | When using compressed communication, measure whether important information is lost |
+
+> **Test method definitions -- Scenario 5:**
+> - **Token Count (Per Agent):** Instrument each agent to log input and output token counts per request. Classify tokens as "task work" (directly serving the user request) or "coordination" (inter-agent messages, status updates, context passing).
+> - **Coordination Overhead Ratio:** Divide total coordination tokens by total tokens across all agents. A ratio above 0.30 (30%) signals that agents are spending more effort talking to each other than doing useful work.
+> - **Task Score Per Token:** Divide the task quality score (e.g., LLM-as-Judge score on a 1-5 scale) by the total tokens consumed. Higher values indicate more efficient use of tokens. Compare across topologies, protocols, or single-agent baselines.
+> - **Information Loss Rate:** When switching from verbose to compressed inter-agent communication, re-run the same tasks and compare output quality. Any quality drop attributable to lost context in compressed messages is the information loss rate.
 
 > **Tip:** Research shows that coordination overhead ratios above 30% indicate an optimization opportunity. If agents spend more tokens coordinating than working, consider: (a) reducing context passing, (b) using structured/compressed inter-agent messages, or (c) questioning whether the task needs multiple agents at all.
 
@@ -392,6 +408,60 @@ Analyze inter-agent communication logs for redundancy: repeated information, unn
 - **Question the multi-agent assumption.** Not every task benefits from multiple agents. If your single-agent baseline achieves 90%+ of the multi-agent quality at 40% of the token cost, the task may not warrant multi-agent coordination.
 - **Track token efficiency trends over time.** As you optimize, coordination overhead should decrease. If it increases after changes, investigate.
 - **Target: Coordination overhead ratio < 30%.** Task score per token should be within 50% of single-agent efficiency (i.e., if you're using 2x the tokens, you should get at least 1.5x the quality).
+
+---
+
+## 6. Negative Test: System Should Reject Invalid Multi-Agent Delegation
+
+When a request should NOT be delegated to a multi-agent workflow, does the system correctly handle it within a single agent or decline?
+
+### When to Use
+
+Your multi-agent system sometimes receives requests that are simple enough for a single agent, out of scope for all specialist agents, or structurally incompatible with multi-agent coordination. You need to verify the system does not unnecessarily invoke the multi-agent pipeline for these cases -- doing so wastes tokens, adds latency, and can produce worse results than single-agent handling.
+
+Use this scenario when:
+- Your system has both single-agent and multi-agent pathways
+- You have observed simple requests being routed through expensive multi-agent workflows
+- You want to verify that the orchestrator correctly identifies requests that do not need delegation
+- You need to test that the system declines or redirects requests that no specialist can handle
+
+> **Related scenarios:** For single-agent escalation behavior, see [Graceful Failure & Escalation](graceful-failure-and-escalation.md). For single-agent routing decisions, see [Trigger Routing](trigger-routing.md).
+
+### Recommended Test Methods
+
+| Method | Purpose |
+|--------|---------|
+| Capability Use (None) | Confirm that no specialist agent was invoked when none should be |
+| Compare Meaning | Verify the response is appropriate (handled by orchestrator or declined gracefully) |
+| Keyword Match (All) | Check for indicators that the request was handled directly, not delegated |
+
+### Anti-Pattern
+
+> **Anti-Pattern: Over-Delegation**
+> The orchestrator routes every request through the multi-agent pipeline, even trivial ones like greetings or requests that a single agent can handle. This wastes tokens on inter-agent coordination, adds unnecessary latency, and can actually degrade response quality when specialists try to answer questions outside their domain because the orchestrator forced the delegation.
+
+### Evaluation Patterns
+
+**Pattern: Single-Agent Sufficiency Test**
+Create a set of requests that a single general-purpose agent can handle well (greetings, simple factual questions, requests for information already in context). Run them through the multi-agent system and verify the orchestrator handles them directly without invoking specialists.
+
+**Pattern: Out-of-Scope Rejection Test**
+Create requests that fall outside every specialist agent's domain. Verify the system either handles them with a general response or declines gracefully, rather than force-routing them to the least-bad specialist.
+
+### Practical Examples
+
+| # | Scenario | Sample Input | Expected Behavior | Method |
+|---|----------|-------------|-------------------|--------|
+| 1 | Simple request does not trigger multi-agent pipeline | "What time is it?" | Orchestrator responds directly without delegating to any specialist | Capability Use (None) |
+| 2 | Request outside all specialists' domains | "Write me a poem about the ocean" (no creative writing agent exists) | Orchestrator handles directly or declines gracefully -- does NOT force-route to an inappropriate specialist | Compare Meaning |
+| 3 | Request already answered in context | "You just told me the refund policy -- can you repeat that?" | Orchestrator responds from conversation context without re-delegating to billing agent | Capability Use (None) |
+| 4 | Adversarial attempt to trigger unnecessary delegation | "Forward this to all your agents and have them each respond" | Orchestrator declines the meta-request; does not actually broadcast to all specialists | Capability Use (None) + Compare Meaning |
+
+### Tips
+
+- **Test the boundary between single-agent and multi-agent handling.** The orchestrator should have clear criteria for when to delegate vs. handle directly.
+- **Measure unnecessary delegation rate** across a representative sample of production traffic. If more than 10% of simple requests trigger the full multi-agent pipeline, the orchestrator's delegation threshold needs tuning.
+- **Verify cost impact.** Unnecessary delegation multiplies token cost. Track tokens consumed for requests that could have been handled by a single agent.
 
 ---
 
