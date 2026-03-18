@@ -8,7 +8,7 @@
 
 ## Why Governance & Auditability Evaluation Matters
 
-The EU AI Act enters full enforcement in August 2026. High-risk AI systems — including agents used in employment, credit, healthcare, and law enforcement — must demonstrate reproducibility, traceability, and bias mitigation with documentary evidence. Failure to comply exposes organizations to fines up to €35 million or 7% of global revenue.
+The EU AI Act's high-risk system requirements enter full enforcement in August 2026. High-risk AI systems — including agents used in employment, credit, healthcare, and law enforcement — must demonstrate reproducibility, traceability, and bias mitigation with documentary evidence. Failure to comply exposes organizations to fines up to €35 million or 7% of global revenue.
 
 But governance evaluation is not just a European concern. NIST's AI Risk Management Framework (AI RMF), the White House Executive Order on AI, and sector-specific regulations (FDA, SEC, banking supervisors) all converge on the same core requirements:
 
@@ -39,7 +39,7 @@ Use this scenario when:
 - You use LLM-as-judge graders and need to verify their scoring consistency
 - Stakeholders have questioned whether evaluation results are reliable
 
-> **Related scenarios:** For testing whether the agent's _outputs_ are consistent, see [Regression Testing](regression-testing.md). For evaluating grader model reliability, see the triage playbook's grader model selection guide. This scenario specifically evaluates whether the _evaluation process itself_ is reproducible.
+> **Related scenarios:** For testing whether the agent's _outputs_ are consistent, see [Regression Testing](regression-testing.md). For evaluating grader model reliability, (see the [Triage and Improvement Playbook](https://github.com/microsoft/triage-and-improvement-playbook) for grader selection guidance). This scenario specifically evaluates whether the _evaluation process itself_ is reproducible.
 
 ### Recommended Test Methods
 
@@ -305,7 +305,7 @@ Use this scenario when:
 - Your organization must report serious incidents within regulatory timelines (72 hours under EU AI Act)
 - You want to ensure that the evaluation framework you built for deployment doesn't go stale
 
-> **Related scenarios:** For production evaluation methodology, see the production monitoring scenarios. For regression testing, see [Regression Testing](regression-testing.md). This scenario specifically evaluates whether your governance and monitoring infrastructure operates continuously and meets regulatory post-market surveillance requirements.
+> **Related scenarios:** For production evaluation methodology, see the [Regression Testing](regression-testing.md) scenarios for baseline monitoring patterns. For regression testing, see [Regression Testing](regression-testing.md). This scenario specifically evaluates whether your governance and monitoring infrastructure operates continuously and meets regulatory post-market surveillance requirements.
 
 ### Recommended Test Methods
 
