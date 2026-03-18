@@ -69,6 +69,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Walks users through diagnostic or troubleshooting steps | [Troubleshooting & Guided Diagnosis](business-problem-scenarios/troubleshooting-and-guided-diagnosis.md) + [Knowledge Grounding](capability-scenarios/knowledge-grounding-and-accuracy.md) + [Graceful Failure](capability-scenarios/graceful-failure-and-escalation.md) |
 | Guides users through multi-step processes | [Process Navigation & Multi-Step Guidance](business-problem-scenarios/process-navigation-and-multistep-guidance.md) + [Trigger Routing](capability-scenarios/trigger-routing.md) + [Tone & Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) |
 | Routes conversations across multiple topics | [Triage & Routing](business-problem-scenarios/triage-and-routing.md) + [Trigger Routing](capability-scenarios/trigger-routing.md) + [Graceful Failure](capability-scenarios/graceful-failure-and-escalation.md) |
+| Uses multiple specialized agents (orchestrator + specialists) | [Multi-Agent Orchestration](capability-scenarios/multi-agent-orchestration.md) + [Trigger Routing](capability-scenarios/trigger-routing.md) + [Graceful Failure](capability-scenarios/graceful-failure-and-escalation.md) |
 | Serves external customers (not just internal employees) | [Tone & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) + [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Handles sensitive data (PII, financial, health) | [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Is about to be updated or republished | [Regression Testing](capability-scenarios/regression-testing.md) + all sections previously passing |
@@ -95,6 +96,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Test whether my agent handles adversarial or out-of-scope inputs safely | [Safety & Boundary Enforcement](capability-scenarios/safety-and-boundary-enforcement.md) |
 | Evaluate tone, empathy, and response quality | [Tone, Helpfulness & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) |
 | Confirm my agent escalates or declines appropriately when stuck | [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md) |
+| Evaluate multi-agent handoff, routing, and coordination | [Multi-Agent Orchestration](capability-scenarios/multi-agent-orchestration.md) |
 | Ensure nothing broke before I publish an update | [Regression Testing](capability-scenarios/regression-testing.md) |
 | Make sure my agent tailors answers to user-specific context | [Information Retrieval & Policy Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) (personalization scenarios) |
 
@@ -140,6 +142,7 @@ ai-agent-eval-scenario-library/
 │   ├── safety-and-boundary-enforcement.md
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
+│   ├── multi-agent-orchestration.md  ← NEW: handoff, pipeline, concurrent, and failure recovery
 │   └── regression-testing.md
 │
 └── resources/
