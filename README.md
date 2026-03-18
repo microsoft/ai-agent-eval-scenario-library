@@ -147,7 +147,8 @@ ai-agent-eval-scenario-library/
     ├── eval-set-template.md       ← Template for building eval sets
     ├── agent-profile-template.yaml ← Structured snapshot of your agent's config
     ├── agent-profile-guide.md     ← How to extract the profile from a solution export
-    └── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    ├── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    └── classification-grader-guide.md ← How to use Custom test methods as classification graders
 ```
 
 ---
