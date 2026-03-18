@@ -72,6 +72,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Serves external customers (not just internal employees) | [Tone & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) + [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Handles sensitive data (PII, financial, health) | [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Is about to be updated or republished | [Regression Testing](capability-scenarios/regression-testing.md) + all sections previously passing |
+| Has been running in production for weeks/months | [Continuous Production Evaluation](capability-scenarios/continuous-production-evaluation.md) + [Regression Testing](capability-scenarios/regression-testing.md) |
 
 > **Tip:** Most agents match multiple rows. An agent that answers HR questions from SharePoint AND submits PTO requests via Power Automate would combine rows 1 and 2.
 
@@ -96,6 +97,9 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Evaluate tone, empathy, and response quality | [Tone, Helpfulness & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) |
 | Confirm my agent escalates or declines appropriately when stuck | [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md) |
 | Ensure nothing broke before I publish an update | [Regression Testing](capability-scenarios/regression-testing.md) |
+| Monitor my agent's quality in production over time | [Continuous Production Evaluation](capability-scenarios/continuous-production-evaluation.md) |
+| Detect when my agent's behavior is drifting or degrading | [Continuous Production Evaluation](capability-scenarios/continuous-production-evaluation.md) (drift detection) |
+| Understand my agent's cost and latency profile | [Continuous Production Evaluation](capability-scenarios/continuous-production-evaluation.md) (cost monitoring) |
 | Make sure my agent tailors answers to user-specific context | [Information Retrieval & Policy Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) (personalization scenarios) |
 
 ---
@@ -140,7 +144,8 @@ ai-agent-eval-scenario-library/
 │   ├── safety-and-boundary-enforcement.md
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
-│   └── regression-testing.md
+│   ├── regression-testing.md
+│   └── continuous-production-evaluation.md
 │
 └── resources/
     ├── scenario-index.csv         ← Flat index of all scenarios (filterable)
