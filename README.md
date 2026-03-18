@@ -97,6 +97,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Confirm my agent escalates or declines appropriately when stuck | [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md) |
 | Ensure nothing broke before I publish an update | [Regression Testing](capability-scenarios/regression-testing.md) |
 | Make sure my agent tailors answers to user-specific context | [Information Retrieval & Policy Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) (personalization scenarios) |
+| Verify my agent maintains context, coherence, and quality across multiple turns | [Multi-Turn Conversation Quality](capability-scenarios/multi-turn-conversation-quality.md) |
 
 ---
 
@@ -140,7 +141,8 @@ ai-agent-eval-scenario-library/
 │   ├── safety-and-boundary-enforcement.md
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
-│   └── regression-testing.md
+│   ├── regression-testing.md
+│   └── multi-turn-conversation-quality.md
 │
 └── resources/
     ├── scenario-index.csv         ← Flat index of all scenarios (filterable)
