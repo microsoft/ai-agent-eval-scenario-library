@@ -47,7 +47,7 @@ Each scenario provides everything you need to create test cases:
 - **Practical Examples** — sample test cases you can adapt directly
 - **Tips** — coverage targets, thresholds, and best practices
 
-Adapt the examples to your agent's specific knowledge sources, tools, and user base. Use multiple test methods per test case wherever relevant — each method catches a different failure mode, and Copilot Studio supports combining them.
+Adapt the examples to your agent's specific knowledge sources, tools, and user base. Use multiple test methods per test case wherever relevant — each method catches a different failure mode, and Copilot Studio supports combining them. For detailed guidance on choosing methods, see the [Evaluation Method Selection Guide](resources/evaluation-method-selection-guide.md).
 
 ### Step 4: Expand — Check for Gaps
 
@@ -143,11 +143,12 @@ ai-agent-eval-scenario-library/
 │   └── regression-testing.md
 │
 └── resources/
-    ├── scenario-index.csv         ← Flat index of all scenarios (filterable)
-    ├── eval-set-template.md       ← Template for building eval sets
-    ├── agent-profile-template.yaml ← Structured snapshot of your agent's config
-    ├── agent-profile-guide.md     ← How to extract the profile from a solution export
-    └── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    ├── scenario-index.csv                      ← Flat index of all scenarios (filterable)
+    ├── eval-set-template.md                    ← Template for building eval sets
+    ├── agent-profile-template.yaml             ← Structured snapshot of your agent's config
+    ├── agent-profile-guide.md                  ← How to extract the profile from a solution export
+    ├── eval-generation-prompt.md               ← Reusable prompt for LLM-based eval set generation
+    └── evaluation-method-selection-guide.md    ← How to choose the right evaluation methods
 ```
 
 ---
