@@ -79,3 +79,4 @@ CAP-MT-03,Conversation Coherence Under Topic Switching,Capability,Multi-Turn Con
 CAP-MT-04,Long Conversation Degradation,Capability,Multi-Turn Conversation Quality,Architecture,capability-scenarios/multi-turn-conversation-quality.md
 CAP-MT-05,Conversation Recovery After Misunderstanding,Capability,Multi-Turn Conversation Quality,Architecture + Edge Cases,capability-scenarios/multi-turn-conversation-quality.md
 CAP-MT-06,Consistent Persona and Behavior Across Turns,Capability,Multi-Turn Conversation Quality,Subjective Preferences,capability-scenarios/multi-turn-conversation-quality.md
+CAP-MT-07,Negative Test: Multi-Turn Context Manipulation,Capability,Multi-Turn Conversation Quality,Subjective Preferences,capability-scenarios/multi-turn-conversation-quality.md
