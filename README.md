@@ -72,6 +72,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Serves external customers (not just internal employees) | [Tone & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) + [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Handles sensitive data (PII, financial, health) | [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Is about to be updated or republished | [Regression Testing](capability-scenarios/regression-testing.md) + all sections previously passing |
+| Needs adversarial/red-team safety testing | [Red-Teaming & Adversarial Evaluation](capability-scenarios/red-teaming-and-adversarial-evaluation.md) + [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) |
 
 > **Tip:** Most agents match multiple rows. An agent that answers HR questions from SharePoint AND submits PTO requests via Power Automate would combine rows 1 and 2.
 
@@ -97,6 +98,11 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Confirm my agent escalates or declines appropriately when stuck | [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md) |
 | Ensure nothing broke before I publish an update | [Regression Testing](capability-scenarios/regression-testing.md) |
 | Make sure my agent tailors answers to user-specific context | [Information Retrieval & Policy Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) (personalization scenarios) |
+| Measure my agent's attack success rate (ASR) and safety posture | [Red-Teaming & Adversarial Evaluation](capability-scenarios/red-teaming-and-adversarial-evaluation.md) (ASR baseline) |
+| Test resistance to multi-turn manipulation and crescendo attacks | [Red-Teaming & Adversarial Evaluation](capability-scenarios/red-teaming-and-adversarial-evaluation.md) (multi-turn attacks) |
+| Verify my agent resists indirect prompt injection through tool outputs | [Red-Teaming & Adversarial Evaluation](capability-scenarios/red-teaming-and-adversarial-evaluation.md) (XPIA) |
+| Test encoding and obfuscation bypass resistance | [Red-Teaming & Adversarial Evaluation](capability-scenarios/red-teaming-and-adversarial-evaluation.md) (encoding attacks) |
+| Automate adversarial testing in my CI/CD pipeline | [Red-Teaming & Adversarial Evaluation](capability-scenarios/red-teaming-and-adversarial-evaluation.md) (CI/CD integration) |
 
 ---
 
