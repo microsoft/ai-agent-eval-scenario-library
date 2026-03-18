@@ -96,6 +96,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Evaluate tone, empathy, and response quality | [Tone, Helpfulness & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) |
 | Confirm my agent escalates or declines appropriately when stuck | [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md) |
 | Ensure nothing broke before I publish an update | [Regression Testing](capability-scenarios/regression-testing.md) |
+| Optimize cost without sacrificing quality | [Cost-Efficiency Evaluation](capability-scenarios/cost-efficiency-evaluation.md) |
 | Make sure my agent tailors answers to user-specific context | [Information Retrieval & Policy Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) (personalization scenarios) |
 
 ---
@@ -140,7 +141,8 @@ ai-agent-eval-scenario-library/
 │   ├── safety-and-boundary-enforcement.md
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
-│   └── regression-testing.md
+│   ├── regression-testing.md
+│   └── cost-efficiency-evaluation.md
 │
 └── resources/
     ├── scenario-index.csv         ← Flat index of all scenarios (filterable)
