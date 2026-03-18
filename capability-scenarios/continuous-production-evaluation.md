@@ -15,7 +15,7 @@ An agent that passes all pre-launch tests can still degrade in production. Real-
 - **Prompt and model drift.** System prompt edits, model version updates, or configuration changes introduce subtle behavioral shifts that pre-launch tests don't catch.
 - **Silent quality erosion.** Quality doesn't fail all at once — it degrades by fractions of a percent per week. Without monitoring, you discover the problem months later through user complaints.
 
-Research consistently shows that the vast majority of ML systems degrade without proactive monitoring. Continuous evaluation transforms "hope it still works" into "know it still works."
+Production ML systems commonly degrade without proactive monitoring. Continuous evaluation transforms "hope it still works" into "know it still works."
 
 ### The Map-Measure-Manage Framework
 
@@ -171,6 +171,8 @@ Use this scenario when:
 - You have experienced production incidents caused by changes that weren't tested
 
 > **Related scenarios:** For foundational regression testing concepts, see [Regression Testing](regression-testing.md). This scenario extends regression testing into a continuous, automated CI/CD pipeline with deployment gating.
+>
+> **How this differs from Regression Testing (CAP-RT-01–RT-05):** The [Regression Testing](regression-testing.md) guide covers _what_ to test when a specific change is made — knowledge updates, topic edits, tool configuration changes — and how to compare before-and-after results. This scenario covers _how to operationalize_ those tests: automated CI/CD pipelines, deployment gates, canary releases, and statistical significance testing at scale. Think of regression testing as the test cases and this scenario as the infrastructure that runs them automatically on every change.
 
 ### Recommended Test Methods
 
@@ -230,7 +232,7 @@ Use this scenario when:
 - You are comparing model configurations and need cost-quality tradeoffs
 - Users complain about response latency
 
-> **Related scenarios:** For evaluating whether the agent takes an efficient path, see [Trajectory & Stepwise Evaluation](trajectory-and-stepwise-evaluation.md) (efficiency scenarios). This scenario focuses on the operational cost and latency monitoring in production.
+> **Related scenarios:** For evaluating whether the agent takes an efficient path, see [Regression Testing](regression-testing.md) (efficiency-related regression scenarios). This scenario focuses on the operational cost and latency monitoring in production.
 
 ### Recommended Test Methods
 
@@ -290,7 +292,7 @@ Use this scenario when:
 - You need to correlate agent quality metrics with business KPIs (resolution rate, user satisfaction, escalation rate)
 - Your team has grown beyond 2–3 people and needs shared visibility into agent behavior
 
-> **Related scenarios:** For evaluating the correctness of each step, see [Trajectory & Stepwise Evaluation](trajectory-and-stepwise-evaluation.md). For tool invocation correctness, see [Tool & Connector Invocations](tool-and-connector-invocations.md). This scenario provides the observability infrastructure that feeds data to all other evaluation scenarios.
+> **Related scenarios:** For evaluating the correctness of each step, see [Regression Testing](regression-testing.md). For tool invocation correctness, see [Tool & Connector Invocations](tool-and-connector-invocations.md). This scenario provides the observability infrastructure that feeds data to all other evaluation scenarios.
 
 ### Three-Level Tracing Architecture
 

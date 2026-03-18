@@ -145,7 +145,6 @@ ai-agent-eval-scenario-library/
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
 │   ├── regression-testing.md
-│   ├── trajectory-and-stepwise-evaluation.md
 │   └── continuous-production-evaluation.md
 │
 └── resources/
