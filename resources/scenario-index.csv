@@ -73,8 +73,8 @@ CAP-RT-02,Regression Check After Topic or Flow Changes,Capability,Regression Tes
 CAP-RT-03,Regression Check After Tool Configuration Changes,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
 CAP-RT-04,Full-Suite Regression Before Publishing,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
 CAP-RT-05,Targeted Regression for Specific Capability,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
-CAP-RTAM-01,Attack Success Rate Baseline Measurement,Capability,Red-Teaming & Adversarial Evaluation,Architecture + Safety,capability-scenarios/red-teaming-and-adversarial-evaluation.md
-CAP-RTAM-02,Multi-Turn Crescendo Attack Resistance,Capability,Red-Teaming & Adversarial Evaluation,Architecture + Safety,capability-scenarios/red-teaming-and-adversarial-evaluation.md
-CAP-RTAM-03,Indirect Prompt Injection Through Tool Outputs,Capability,Red-Teaming & Adversarial Evaluation,Architecture + Safety,capability-scenarios/red-teaming-and-adversarial-evaluation.md
-CAP-RTAM-04,Encoding and Obfuscation Attack Resistance,Capability,Red-Teaming & Adversarial Evaluation,Architecture + Safety,capability-scenarios/red-teaming-and-adversarial-evaluation.md
-CAP-RTAM-05,Automated Red-Team CI/CD Integration,Capability,Red-Teaming & Adversarial Evaluation,Cross-Cutting,capability-scenarios/red-teaming-and-adversarial-evaluation.md
+CAP-RA-01,Attack Success Rate Baseline Measurement,Capability,Red-Teaming & Adversarial Evaluation,Architecture + Safety,capability-scenarios/red-teaming-and-adversarial-evaluation.md
+CAP-RA-02,Multi-Turn Crescendo Attack Resistance,Capability,Red-Teaming & Adversarial Evaluation,Architecture + Safety,capability-scenarios/red-teaming-and-adversarial-evaluation.md
+CAP-RA-03,Indirect Prompt Injection Through Tool Outputs,Capability,Red-Teaming & Adversarial Evaluation,Architecture + Safety,capability-scenarios/red-teaming-and-adversarial-evaluation.md
+CAP-RA-04,Encoding and Obfuscation Attack Resistance,Capability,Red-Teaming & Adversarial Evaluation,Architecture + Safety,capability-scenarios/red-teaming-and-adversarial-evaluation.md
+CAP-RA-05,Automated Red-Team CI/CD Integration,Capability,Red-Teaming & Adversarial Evaluation,Cross-Cutting,capability-scenarios/red-teaming-and-adversarial-evaluation.md
