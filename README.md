@@ -66,6 +66,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 |------------|--------------------------|
 | Answers questions using knowledge sources (docs, SharePoint, FAQ) | [Information Retrieval & Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) + [Knowledge Grounding](capability-scenarios/knowledge-grounding-and-accuracy.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Executes tasks via Power Automate, APIs, or connectors | [Request Submission & Task Execution](business-problem-scenarios/request-submission-and-task-execution.md) + [Tool Invocations](capability-scenarios/tool-and-connector-invocations.md) + [Safety](capability-scenarios/safety-and-boundary-enforcement.md) |
+| Uses MCP servers, function calling APIs, or plugin registries | [Tool Invocations](capability-scenarios/tool-and-connector-invocations.md) + [MCP & Function-Calling Evaluation](capability-scenarios/mcp-and-function-calling-evaluation.md) + [Safety](capability-scenarios/safety-and-boundary-enforcement.md) |
 | Walks users through diagnostic or troubleshooting steps | [Troubleshooting & Guided Diagnosis](business-problem-scenarios/troubleshooting-and-guided-diagnosis.md) + [Knowledge Grounding](capability-scenarios/knowledge-grounding-and-accuracy.md) + [Graceful Failure](capability-scenarios/graceful-failure-and-escalation.md) |
 | Guides users through multi-step processes | [Process Navigation & Multi-Step Guidance](business-problem-scenarios/process-navigation-and-multistep-guidance.md) + [Trigger Routing](capability-scenarios/trigger-routing.md) + [Tone & Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) |
 | Routes conversations across multiple topics | [Triage & Routing](business-problem-scenarios/triage-and-routing.md) + [Trigger Routing](capability-scenarios/trigger-routing.md) + [Graceful Failure](capability-scenarios/graceful-failure-and-escalation.md) |
@@ -90,6 +91,9 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Check that my agent triages and routes correctly | [Triage & Routing](business-problem-scenarios/triage-and-routing.md) |
 | Confirm my agent doesn't hallucinate or return ungrounded answers | [Knowledge Grounding & Accuracy](capability-scenarios/knowledge-grounding-and-accuracy.md) |
 | Check that the right Power Automate flow, connector, or API fires | [Tool & Connector Invocations](capability-scenarios/tool-and-connector-invocations.md) |
+| Evaluate MCP tool discovery, schema compliance, and function-calling accuracy | [MCP & Function-Calling Evaluation](capability-scenarios/mcp-and-function-calling-evaluation.md) |
+| Test multi-hop tool chains where each call depends on the previous result | [MCP & Function-Calling Evaluation](capability-scenarios/mcp-and-function-calling-evaluation.md) |
+| Verify my agent knows when NOT to call any tool | [MCP & Function-Calling Evaluation](capability-scenarios/mcp-and-function-calling-evaluation.md) |
 | Verify my topic triggers route correctly | [Trigger Routing](capability-scenarios/trigger-routing.md) |
 | Confirm a legal disclaimer or policy appears word-for-word | [Compliance & Verbatim Content](capability-scenarios/compliance-and-verbatim-content.md) |
 | Test whether my agent handles adversarial or out-of-scope inputs safely | [Safety & Boundary Enforcement](capability-scenarios/safety-and-boundary-enforcement.md) |
@@ -140,7 +144,8 @@ ai-agent-eval-scenario-library/
 │   ├── safety-and-boundary-enforcement.md
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
-│   └── regression-testing.md
+│   ├── regression-testing.md
+│   └── mcp-and-function-calling-evaluation.md
 │
 └── resources/
     ├── scenario-index.csv         ← Flat index of all scenarios (filterable)
