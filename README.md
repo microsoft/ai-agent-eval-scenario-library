@@ -96,6 +96,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Evaluate tone, empathy, and response quality | [Tone, Helpfulness & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) |
 | Confirm my agent escalates or declines appropriately when stuck | [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md) |
 | Ensure nothing broke before I publish an update | [Regression Testing](capability-scenarios/regression-testing.md) |
+| Evaluate qualitative criteria (compliance, tone, safety) with custom rubrics | [Classification Grader Guide](resources/classification-grader-guide.md) |
 | Make sure my agent tailors answers to user-specific context | [Information Retrieval & Policy Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) (personalization scenarios) |
 
 ---
@@ -147,7 +148,8 @@ ai-agent-eval-scenario-library/
     ├── eval-set-template.md       ← Template for building eval sets
     ├── agent-profile-template.yaml ← Structured snapshot of your agent's config
     ├── agent-profile-guide.md     ← How to extract the profile from a solution export
-    └── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    ├── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    └── classification-grader-guide.md ← How to use Custom test methods as classification graders
 ```
 
 ---
