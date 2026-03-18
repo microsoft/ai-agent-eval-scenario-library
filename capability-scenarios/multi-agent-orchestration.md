@@ -4,6 +4,14 @@
 
 [Back to library](../README.md) | [All capability scenarios](README.md)
 
+### Custom Evaluation Methods Used in This File
+
+This file references two custom evaluation methods that go beyond the standard keyword-match and capability-use checks:
+
+- **Custom (Classification)** — Configure a rubric-based evaluator to classify the agent's output into predefined categories (e.g., "correct routing", "incorrect routing", "ambiguous"). You define the categories and the grading criteria; the evaluator returns which category the output falls into. Use this when the evaluation question is "which bucket does this response belong in?"
+
+- **Custom (Evaluation Instructions)** — Provide freeform grading instructions that a language-model evaluator follows to score the response. The instructions describe what a good response looks like and what to penalize. Use this when the evaluation question is more nuanced than classification — e.g., "does the response acknowledge the conflict and offer a reasoned synthesis?"
+
 ---
 
 ## 1. Verifying Correct Agent Handoff
@@ -66,7 +74,7 @@ Test inputs containing two intents spanning different specialists. Example: "I n
 
 ### Tips
 
-- Target: **95%+ of clear-domain test cases route to the correct specialist.** Boundary cases should achieve **85%+** correct routing or appropriate clarification.
+- Target: **95%+ (routing errors cascade — a wrong handoff means the entire downstream response comes from the wrong specialist) of clear-domain test cases route to the correct specialist.** Boundary cases should achieve **85%+ (boundary ambiguity is inherent — clarification is an acceptable outcome)** correct routing or appropriate clarification.
 - Map every specialist pair that shares vocabulary or overlapping domains — these boundaries generate the highest-value test cases.
 - Rerun this scenario **every time you add or remove a specialist agent** or change the orchestrator's routing instructions.
 - Track which specialist pairs generate the most routing errors — these indicate domain boundary ambiguity that may need prompt or architecture changes.
@@ -130,7 +138,7 @@ If the pipeline order is configurable, test whether reordering stages changes th
 
 - Test at least **2 inputs per pipeline stage** that specifically exercise that stage's logic.
 - When a test fails, use stage-level tracing to identify which agent introduced the error — don't just re-run the whole pipeline.
-- Target: **90%+ of end-to-end test cases pass.** Stage-contribution tests should also pass at **90%+** — if a stage consistently contributes nothing, it may be redundant.
+- Target: **90%+ (some pipeline failures are recoverable through stage-level retries) of end-to-end test cases pass.** Stage-contribution tests should also pass at **90%+ (a stage that consistently contributes nothing may be redundant)**.
 
 ---
 
@@ -189,7 +197,7 @@ Test behavior when one parallel agent fails or times out. The system should stil
 
 ### Tips
 
-- Target: **95%+ of aggregated outputs include contributions from all expected parallel agents.**
+- Target: **95%+ (missing a perspective means incomplete analysis for the user) of aggregated outputs include contributions from all expected parallel agents.**
 - Conflict-resolution test cases are the highest-value tests — they reveal whether your aggregation logic is sophisticated or just concatenating outputs.
 - Test with inputs that produce different levels of agreement across agents (all agree, split, all disagree) to stress-test aggregation.
 
@@ -251,7 +259,7 @@ Test handoffs after extended conversations (5+ turns) with multiple details. Ver
 ### Tips
 
 - Context preservation failures are one of the top user-frustration drivers in multi-agent systems. Users strongly dislike repeating information.
-- Target: **90%+ of key details from pre-handoff conversation are available post-handoff.**
+- Target: **90%+ (users strongly resist repeating information — context loss is a top frustration driver) of key details from pre-handoff conversation are available post-handoff.**
 - Test both structured context (order numbers, dates, names) and unstructured context (user preferences, emotional state, previously attempted solutions).
 - If context preservation is poor, investigate whether the handoff mechanism passes full conversation history, a summary, or just the latest message.
 
@@ -308,11 +316,11 @@ A specialist agent returns unexpected output format. Verify the orchestrator det
 | 1 | Specialist timeout | Request to billing agent that times out | User receives helpful message within SLA, not a hang or raw error | Custom (Classification) + Keyword Match |
 | 2 | Graceful degradation message | Technical support agent returns error | Response explains temporary limitation and offers alternative (e.g., "I can't access your account details right now. Would you like me to create a support ticket?") | Custom (Evaluation Instructions) |
 | 3 | Cascading failure | Both billing and account agents unavailable | Orchestrator acknowledges system limitations and offers human escalation | Custom (Classification) |
-| 4 | No technical jargon in errors | Any specialist failure | Response does NOT contain stack traces, error codes, or internal agent names | Keyword Match (Any) — negative match for technical terms |
+| 4 | No technical jargon in errors | Any specialist failure | Response must NOT contain stack traces, error codes, or internal system names | Custom (Evaluation Instructions) |
 
 ### Tips
 
-- Target: **100% of failure scenarios produce a user-friendly response** (no raw errors, no hangs, no technical jargon).
+- Target: **100% (any raw error or hang is an unacceptable user experience) of failure scenarios produce a user-friendly response** (no raw errors, no hangs, no technical jargon).
 - Partial responses are often better than no response — if 3 of 4 parallel agents succeed, return those results with a note about incomplete analysis.
 - Test failure recovery with real latency constraints — a graceful error message after 60 seconds is still a bad user experience.
 - Track failure recovery patterns in production to identify which specialist agents fail most often and improve their resilience.
@@ -366,4 +374,4 @@ For tasks that should only require one specialist, verify that only one speciali
 
 - Duplicate work is a cost and latency issue more than a correctness issue — but it still matters for production systems at scale.
 - Track average token usage and latency per request type. Sudden increases may indicate routing changes that cause unnecessary parallel processing.
-- Target: **Simple single-domain tasks should invoke only 1 specialist agent 95%+ of the time.**
+- Target: **Simple single-domain tasks should invoke only 1 specialist agent 95%+ (duplicate invocations waste tokens and add latency) of the time.**
