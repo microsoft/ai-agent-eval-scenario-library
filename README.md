@@ -55,6 +55,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 - Testing only happy paths — add edge cases from [Safety & Boundary Enforcement](capability-scenarios/safety-and-boundary-enforcement.md) and [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md)
 - Skipping compliance testing — see [Compliance & Verbatim Content](capability-scenarios/compliance-and-verbatim-content.md)
 - No regression baseline — see [Regression Testing](capability-scenarios/regression-testing.md)
+- Operating in a regulated industry — see the [Regulated Industries Guide](resources/regulated-industries-guide.md) for additional audit, compliance, and fairness evaluation requirements
 
 ---
 
@@ -71,6 +72,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Routes conversations across multiple topics | [Triage & Routing](business-problem-scenarios/triage-and-routing.md) + [Trigger Routing](capability-scenarios/trigger-routing.md) + [Graceful Failure](capability-scenarios/graceful-failure-and-escalation.md) |
 | Serves external customers (not just internal employees) | [Tone & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) + [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Handles sensitive data (PII, financial, health) | [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
+| Operates in a regulated industry (healthcare, finance, insurance, government) | All relevant scenarios above + [Regulated Industries Guide](resources/regulated-industries-guide.md) for audit trails, disclaimers, bias testing, human oversight |
 | Is about to be updated or republished | [Regression Testing](capability-scenarios/regression-testing.md) + all sections previously passing |
 
 > **Tip:** Most agents match multiple rows. An agent that answers HR questions from SharePoint AND submits PTO requests via Power Automate would combine rows 1 and 2.
@@ -147,7 +149,8 @@ ai-agent-eval-scenario-library/
     ├── eval-set-template.md       ← Template for building eval sets
     ├── agent-profile-template.yaml ← Structured snapshot of your agent's config
     ├── agent-profile-guide.md     ← How to extract the profile from a solution export
-    └── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    ├── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    └── regulated-industries-guide.md ← Extra eval requirements for healthcare, finance, insurance, government
 ```
 
 ---
