@@ -55,6 +55,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 - Testing only happy paths — add edge cases from [Safety & Boundary Enforcement](capability-scenarios/safety-and-boundary-enforcement.md) and [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md)
 - Skipping compliance testing — see [Compliance & Verbatim Content](capability-scenarios/compliance-and-verbatim-content.md)
 - No regression baseline — see [Regression Testing](capability-scenarios/regression-testing.md)
+- Unsure how to combine scores from different test methods — see the [Metrics Aggregation Guide](resources/metrics-aggregation-guide.md) for normalization, weighting, thresholds, and trend tracking
 
 ---
 
@@ -147,7 +148,8 @@ ai-agent-eval-scenario-library/
     ├── eval-set-template.md       ← Template for building eval sets
     ├── agent-profile-template.yaml ← Structured snapshot of your agent's config
     ├── agent-profile-guide.md     ← How to extract the profile from a solution export
-    └── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    ├── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    └── metrics-aggregation-guide.md ← How to normalize, aggregate, and track eval scores
 ```
 
 ---
