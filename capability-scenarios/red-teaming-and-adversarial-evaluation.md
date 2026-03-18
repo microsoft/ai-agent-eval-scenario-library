@@ -28,19 +28,7 @@ The scenarios in this guide follow three phases of adversarial evaluation:
 
 ---
 
-## Scenarios in This File
-
-| # | Scenario | What It Tests |
-|---|----------|--------------|
-| 1 | [Attack Success Rate Baseline Measurement](#scenario-1-attack-success-rate-baseline-measurement) | What is your agent's baseline safety posture across risk categories? |
-| 2 | [Multi-Turn Crescendo Attack Resistance](#scenario-2-multi-turn-crescendo-attack-resistance) | Can adversaries gradually escalate conversations to bypass safety? |
-| 3 | [Indirect Prompt Injection Through Tool Outputs](#scenario-3-indirect-prompt-injection-through-tool-outputs) | Does the agent follow malicious instructions hidden in external data? |
-| 4 | [Encoding and Obfuscation Attack Resistance](#scenario-4-encoding-and-obfuscation-attack-resistance) | Can adversaries bypass safety by encoding or obfuscating harmful requests? |
-| 5 | [Automated Red-Team CI/CD Integration](#scenario-5-automated-red-team-cicd-integration) | Are adversarial tests running automatically before every release? |
-
----
-
-## Scenario 1: Attack Success Rate Baseline Measurement
+## 1. Attack Success Rate Baseline Measurement
 
 ### When to Use
 
@@ -52,7 +40,7 @@ You need a quantitative measure of your agent's safety posture — not just "doe
 - Your organization must demonstrate adversarial testing for regulatory compliance (e.g., EU AI Act requirements effective August 2026)
 - You are benchmarking multiple agent configurations and need an objective safety comparison
 
-> **Related scenarios:** For individual safety test cases (PII, scope, injection), see [Safety & Boundary Enforcement](safety-and-boundary-enforcement.md). This scenario wraps those concerns into a systematic measurement framework. For multi-turn attacks specifically, see [Scenario 2](#scenario-2-multi-turn-crescendo-attack-resistance).
+> **Related scenarios:** For individual safety test cases (PII, scope, injection), see [Safety & Boundary Enforcement](safety-and-boundary-enforcement.md). This scenario wraps those concerns into a systematic measurement framework. For multi-turn attacks specifically, see [Scenario 2](#2-multi-turn-crescendo-attack-resistance).
 
 ### The Core Metric: Attack Success Rate (ASR)
 
@@ -133,7 +121,7 @@ ASR should be measured per risk category — an agent might have 2% ASR for viol
 
 ---
 
-## Scenario 2: Multi-Turn Crescendo Attack Resistance
+## 2. Multi-Turn Crescendo Attack Resistance
 
 ### When to Use
 
@@ -147,7 +135,7 @@ Your agent handles multi-turn conversations, and you need to verify that it main
 
 Research shows multi-turn crescendo attacks achieve up to 97% success rates against models that resist single-turn attacks effectively. This is the highest-impact gap in most safety evaluations.
 
-> **Related scenarios:** For single-turn adversarial resistance, see [Scenario 1](#scenario-1-attack-success-rate-baseline-measurement). For indirect injection through tool outputs (a different multi-step attack vector), see [Scenario 3](#scenario-3-indirect-prompt-injection-through-tool-outputs).
+> **Related scenarios:** For single-turn adversarial resistance, see [Scenario 1](#1-attack-success-rate-baseline-measurement). For indirect injection through tool outputs (a different multi-step attack vector), see [Scenario 3](#3-indirect-prompt-injection-through-tool-outputs).
 
 ### How Crescendo Attacks Work
 
@@ -219,7 +207,7 @@ The key metric is **turn-at-breach** — which turn in the conversation does the
 
 ---
 
-## Scenario 3: Indirect Prompt Injection Through Tool Outputs
+## 3. Indirect Prompt Injection Through Tool Outputs
 
 ### When to Use
 
@@ -233,7 +221,7 @@ Your agent retrieves information from external sources — documents, databases,
 
 XPIA is the top risk in the OWASP Agentic AI Top 10 because it exploits the fundamental architecture of tool-using agents: they must process external data, and that data can contain adversarial instructions.
 
-> **Related scenarios:** For direct prompt injection (user sends the malicious input), see [Safety & Boundary Enforcement, Scenario 5](safety-and-boundary-enforcement.md#scenario-5-testing-prompt-injection-resistance). For multi-turn manipulation (user gradually escalates), see [Scenario 2](#scenario-2-multi-turn-crescendo-attack-resistance). This scenario specifically tests injection through the *data plane* — external content that the agent retrieves and processes.
+> **Related scenarios:** For direct prompt injection (user sends the malicious input), see [Safety & Boundary Enforcement, Scenario 5](safety-and-boundary-enforcement.md#scenario-5-testing-prompt-injection-resistance). For multi-turn manipulation (user gradually escalates), see [Scenario 2](#2-multi-turn-crescendo-attack-resistance). This scenario specifically tests injection through the *data plane* — external content that the agent retrieves and processes.
 
 ### Data Plane vs. Control Plane
 
@@ -303,7 +291,7 @@ Your evaluation must test whether the agent maintains this separation under adve
 
 ---
 
-## Scenario 4: Encoding and Obfuscation Attack Resistance
+## 4. Encoding and Obfuscation Attack Resistance
 
 ### When to Use
 
@@ -379,7 +367,7 @@ Encoding attacks transform harmful requests so they evade pattern-based safety f
 
 ---
 
-## Scenario 5: Automated Red-Team CI/CD Integration
+## 5. Automated Red-Team CI/CD Integration
 
 ### When to Use
 
