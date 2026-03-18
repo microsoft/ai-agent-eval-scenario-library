@@ -97,6 +97,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Confirm my agent escalates or declines appropriately when stuck | [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md) |
 | Ensure nothing broke before I publish an update | [Regression Testing](capability-scenarios/regression-testing.md) |
 | Make sure my agent tailors answers to user-specific context | [Information Retrieval & Policy Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) (personalization scenarios) |
+| Evaluate how multiple agents coordinate, delegate, and handle failures together | [Multi-Agent System Evaluation](capability-scenarios/multi-agent-system-evaluation.md) |
 
 ---
 
@@ -140,7 +141,8 @@ ai-agent-eval-scenario-library/
 │   ├── safety-and-boundary-enforcement.md
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
-│   └── regression-testing.md
+│   ├── regression-testing.md
+│   └── multi-agent-system-evaluation.md
 │
 └── resources/
     ├── scenario-index.csv         ← Flat index of all scenarios (filterable)
