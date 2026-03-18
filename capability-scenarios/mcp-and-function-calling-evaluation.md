@@ -70,6 +70,8 @@ Test with deliberately vague or incomplete tool descriptions. This reveals how d
 - Monitor **tool registration latency** — a tool that takes 5 seconds to register may be missed in fast-paced conversations.
 - Target: **90% or higher correct tool selection** when tools have clear, non-overlapping descriptions. Expect lower accuracy (70–80%) with deliberately ambiguous descriptions — use this as a benchmark for description quality improvement.
 
+> **Related scenarios:** For basic tool invocation testing (does the right tool fire? are parameters collected?), see [Tool & Connector Invocations](tool-and-connector-invocations.md). This scenario extends that foundation to dynamic discovery from large, changing tool catalogs.
+
 ---
 
 ## 2. Schema Compliance & Parameter Validation
@@ -275,7 +277,7 @@ The tool returns edge values: empty strings, zero values, negative numbers, very
 | 3 | Agent summarizes large result set | "List all my transactions" (API returns 200 records) | Response summarizes top/recent items and offers to show more | Compare Meaning + General Quality |
 | 4 | Same data extracted from different formats | "Get team members" (JSON in test A, markdown table in test B) | Both produce the same list of team members | Compare Meaning + Keyword Match (All) |
 | 5 | Agent handles zero-result response | "Find matching products" (API returns empty array) | "No matching products found" — not an error or empty response | Compare Meaning + General Quality |
-| 6 | Special characters preserved | "Get the project name" (API returns `"Müller & Söhne — Q4 (2026)"`) | Response preserves the exact project name with special characters | Keyword Match (All) |
+| 6 | Special characters preserved | "Get the project name" (API returns `"Müller & Söhne — Q4 (2025)"`) | Response preserves the exact project name with special characters | Keyword Match (All) |
 
 ### Tips
 
@@ -350,6 +352,8 @@ When refusing, the agent should explain what it *can* do. Not just "I can't help
 - Test with at least **10 out-of-scope requests** across different domains to establish a reliable baseline.
 - The quality of the refusal matters: a helpful refusal ("I can't check weather, but I can help with...") is much better than a dead-end ("I can't do that").
 - Monitor this in production — rising false positive rates often indicate tool description creep (descriptions becoming too broad).
+
+> **Related scenarios:** If your concern is that the agent calls tools for informational queries it should answer from knowledge, see [Tool & Connector Invocations — Negative Test](tool-and-connector-invocations.md#scenario-2-negative-test-tool-should-not-be-called). This scenario focuses on requests that fall entirely outside any tool's domain.
 
 ---
 
@@ -463,7 +467,7 @@ Response Handling (4) → Relevance Detection (5) → Doc/Config Faults (6)
 
 Research and benchmarks referenced in this guide:
 
-- **BFCL V4** (Berkeley Function Calling Leaderboard V4): Multi-dimensional function calling evaluation across 6 dimensions — simple calls, parallel invocations, multiple function selection, relevance detection, multi-turn interactions, and multi-step reasoning. 2000+ test pairs with agentic categories.
-- **MCP Fault Taxonomy** (2025): Comprehensive analysis of 419 real faults across MCP software. Five fault categories: Server Setting (27%), Server/Tool Config (32%), Server/Host Config (29%), Documentation (7%), General Programming (5%). Tool response handling most frequent (67%), tool discovery most critical (32% rated critical).
-- **MCPVerse** (2025): Benchmark for evaluating language model interaction with MCP-based tool ecosystems. Best model accuracy: 57.77%, highlighting the challenge of real-world tool use.
-- **JSONSchemaBench** (2025): 10,000+ real-world JSON schemas for evaluating structured output compliance. Shows accuracy degradation with schema complexity.
+- **[BFCL V4](https://gorilla.cs.berkeley.edu/leaderboard)** (Berkeley Function Calling Leaderboard V4): Multi-dimensional function calling evaluation across 6 dimensions — simple calls, parallel invocations, multiple function selection, relevance detection, multi-turn interactions, and multi-step reasoning. 2000+ test pairs with agentic categories.
+- **[MCP Fault Taxonomy](https://arxiv.org/abs/2603.05637)** (2025): Comprehensive analysis of 419 real faults across MCP software. Five fault categories: Server Setting (27%), Server/Tool Config (32%), Server/Host Config (29%), Documentation (7%), General Programming (5%). Tool response handling most frequent (67%), tool discovery most critical (32% of critical-severity faults involve discovery and registration issues).
+- **[MCPVerse](https://arxiv.org/abs/2508.16260)** (2025): Benchmark for evaluating language model interaction with MCP-based tool ecosystems. Best model accuracy: 57.77%, highlighting the challenge of real-world tool use.
+- **[JSONSchemaBench](https://arxiv.org/abs/2501.10868)** (2025): 10,000+ real-world JSON schemas for evaluating structured output compliance. Shows accuracy degradation with schema complexity.

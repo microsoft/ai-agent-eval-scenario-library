@@ -77,5 +77,5 @@ CAP-MF-01,Tool Discovery & Registration,Capability,MCP & Function-Calling Evalua
 CAP-MF-02,Schema Compliance & Parameter Validation,Capability,MCP & Function-Calling Evaluation,Architecture,capability-scenarios/mcp-and-function-calling-evaluation.md
 CAP-MF-03,Multi-Hop Tool Chains,Capability,MCP & Function-Calling Evaluation,Architecture,capability-scenarios/mcp-and-function-calling-evaluation.md
 CAP-MF-04,Tool Response Handling & Format Sensitivity,Capability,MCP & Function-Calling Evaluation,Architecture,capability-scenarios/mcp-and-function-calling-evaluation.md
-CAP-MF-05,Relevance Detection & Refusal,Capability,MCP & Function-Calling Evaluation,Architecture,capability-scenarios/mcp-and-function-calling-evaluation.md
+CAP-MF-05,Relevance Detection & Refusal,Capability,MCP & Function-Calling Evaluation,"Architecture, Edge Cases",capability-scenarios/mcp-and-function-calling-evaluation.md
 CAP-MF-06,Documentation & Server Configuration Faults,Capability,MCP & Function-Calling Evaluation,Architecture,capability-scenarios/mcp-and-function-calling-evaluation.md

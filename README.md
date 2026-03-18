@@ -93,7 +93,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Check that the right Power Automate flow, connector, or API fires | [Tool & Connector Invocations](capability-scenarios/tool-and-connector-invocations.md) |
 | Evaluate MCP tool discovery, schema compliance, and function-calling accuracy | [MCP & Function-Calling Evaluation](capability-scenarios/mcp-and-function-calling-evaluation.md) |
 | Test multi-hop tool chains where each call depends on the previous result | [MCP & Function-Calling Evaluation](capability-scenarios/mcp-and-function-calling-evaluation.md) |
-| Verify my agent knows when NOT to call any tool | [MCP & Function-Calling Evaluation](capability-scenarios/mcp-and-function-calling-evaluation.md) |
+| Verify my agent knows when NOT to call any tool | [Tool & Connector Invocations](capability-scenarios/tool-and-connector-invocations.md) + [MCP & Function-Calling Evaluation](capability-scenarios/mcp-and-function-calling-evaluation.md) |
 | Verify my topic triggers route correctly | [Trigger Routing](capability-scenarios/trigger-routing.md) |
 | Confirm a legal disclaimer or policy appears word-for-word | [Compliance & Verbatim Content](capability-scenarios/compliance-and-verbatim-content.md) |
 | Test whether my agent handles adversarial or out-of-scope inputs safely | [Safety & Boundary Enforcement](capability-scenarios/safety-and-boundary-enforcement.md) |
