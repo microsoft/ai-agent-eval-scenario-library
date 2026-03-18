@@ -5,10 +5,18 @@
 [Back to library](../README.md) | [All capability scenarios](README.md)
 
 > **Prerequisite:** This guide assumes you have already covered the basics in [Tool & Connector Invocations](tool-and-connector-invocations.md) (basic tool use testing) and [Regression Testing](regression-testing.md) (change safety). Those guides test whether the agent can invoke tools correctly and avoid breaking existing functionality. This guide goes further — testing the end-to-end quality of autonomous code contributions.
+>
+> **Note on Regression Testing:** The [Regression Testing](regression-testing.md) guide focuses on regressions caused by knowledge source, topic, or flow changes in conversational agents. This guide covers a different kind of regression — *code-level regressions* introduced by autonomous code edits across files and commits.
+
+> **Test Methods Note:** This guide introduces evaluation methods specific to code output
+> assessment — **Compare Code** (structural diff against reference implementation), **Classification Assessment**
+> (categorizing outputs by failure type/severity), and **Error Pattern Analysis** (identifying recurring failure
+> patterns across evaluation runs). These extend the standard methods described in
+> [resources/eval-set-template.md](../resources/eval-set-template.md).
 
 ---
 
-## 1. Feature Development vs Bug Fix Capability
+## Scenario 1: Feature Development vs Bug Fix Capability Gap (CAP-AC-01)
 
 Can the agent build new features end-to-end, not just fix isolated bugs?
 
@@ -41,16 +49,16 @@ Your coding agent is being deployed for feature work — implementing new functi
 
 ### Evaluation Patterns
 
-**Pattern A: Bug Fix Baseline vs Feature Task Comparison**
+#### Pattern A: Bug Fix Baseline vs Feature Task Comparison
 Run the same agent on a matched set of bug-fix and feature tasks from the same repository. Measure the resolved rate for each category separately. This establishes the agent's capability gap and helps set realistic expectations for feature work deployment.
 
-**Pattern B: Multi-File Feature Requiring New Tests**
+#### Pattern B: Multi-File Feature Requiring New Tests
 Assign a feature that requires creating a new module, integrating it with existing code, and writing tests for the new behavior. Verify the agent produces working tests that cover the core functionality — not just that the implementation compiles.
 
-**Pattern C: Feature Requiring Architecture Decisions**
+#### Pattern C: Feature Requiring Architecture Decisions
 Provide a feature request that can be implemented multiple ways (e.g., "add caching to the API layer"). The agent must choose an approach, justify it, and implement it consistently. Evaluate whether the chosen architecture is reasonable, not whether it matches a single expected solution.
 
-**Pattern D: Incremental Feature Building Across Commits**
+#### Pattern D: Incremental Feature Building Across Commits
 Assign a feature that should be built in stages — a data model first, then business logic, then API endpoints, then tests. Verify the agent produces logical, incremental commits rather than one monolithic change. Each commit should compile and pass existing tests.
 
 ### Practical Examples
@@ -72,7 +80,7 @@ Assign a feature that should be built in stages — a data model first, then bus
 
 ---
 
-## 2. Failure Mode Classification
+## Scenario 2: Failure Mode Classification (CAP-AC-02)
 
 What types of failures does your coding agent exhibit, and how does the distribution shift across models?
 
@@ -92,7 +100,7 @@ You need to diagnose WHY your coding agent fails on specific tasks, not just mea
 ### Setup Steps
 
 1. Define your failure taxonomy. A recommended starting set: **syntax error, incorrect implementation, instruction following, tool-use error, stuck in loop, gave up prematurely**.
-2. Assemble a task suite of **at least 30 tasks** with known difficulty variation — some easy, some hard — to generate enough failures for statistical analysis.
+2. Assemble a task suite of **at least 100 tasks** with known difficulty variation — some easy, some hard — to generate enough failures for statistical analysis. You will need at least 30 *failed* tasks for a meaningful distribution, and typical failure rates of 20-40% mean you need 100+ tasks to reach that threshold.
 3. Run the agent on all tasks and collect full execution traces (tool calls, code edits, terminal output, agent reasoning).
 4. For each failed task, classify the root cause into your taxonomy by reviewing the execution trace. One task may exhibit multiple failure modes — record the primary cause.
 5. Compute the failure distribution and compare across models or agent versions.
@@ -104,16 +112,16 @@ You need to diagnose WHY your coding agent fails on specific tasks, not just mea
 
 ### Evaluation Patterns
 
-**Pattern A: Syntax/Compilation Error Detection**
+#### Pattern A: Syntax/Compilation Error Detection
 Run the agent on tasks and check whether the produced code compiles and passes linting. Syntax failures are the most basic failure mode and should be rare for strong models. Track: Does the code parse? Does it pass the language's type checker? Does it produce linting errors?
 
-**Pattern B: Semantic Correctness Failures**
+#### Pattern B: Semantic Correctness Failures
 The code compiles and runs but produces wrong results. This is the hardest failure mode to detect and fix. Verify by running the test suite and comparing outputs against expected values. Track which types of logic errors recur (off-by-one, wrong variable, missing edge case).
 
-**Pattern C: Tool-Use Failures**
+#### Pattern C: Tool-Use Failures
 The agent edits the wrong file, runs an incorrect shell command, misuses git, or fails to navigate the repository correctly. Review the execution trace for tool calls that target the wrong path, use wrong arguments, or produce errors the agent ignores.
 
-**Pattern D: Loop/Abandonment Detection**
+#### Pattern D: Loop/Abandonment Detection
 The agent enters a cycle of repeated failed attempts (e.g., trying the same fix, getting the same error, trying again) or gives up prematurely with a message like "I was unable to resolve this." Track the number of iterations and whether the agent recognizes when it is stuck.
 
 ### Practical Examples
@@ -135,7 +143,7 @@ The agent enters a cycle of repeated failed attempts (e.g., trying the same fix,
 
 ---
 
-## 3. Specification Compliance & Ambiguity Handling
+## Scenario 3: Specification Compliance & Ambiguity Handling (CAP-AC-03)
 
 Does the agent follow detailed specifications precisely, and how does it handle ambiguous or underspecified requirements?
 
@@ -168,16 +176,16 @@ Your coding agent operates in an enterprise environment with coding standards, p
 
 ### Evaluation Patterns
 
-**Pattern A: Strict Spec Compliance with Measurable Criteria**
+#### Pattern A: Strict Spec Compliance with Measurable Criteria
 Provide a detailed specification with explicit, checkable rules: "Use pytest, not unittest. All functions must have type hints. Commits must follow Conventional Commits format. Maximum function length: 50 lines." Verify every rule is followed.
 
-**Pattern B: Contradictory Requirements Handling**
+#### Pattern B: Contradictory Requirements Handling
 Provide a spec with conflicting instructions: "Minimize external dependencies" and "Use Redis for caching." The agent should recognize the tension and either ask for clarification or document its reasoning for the choice it makes.
 
-**Pattern C: Instruction Scaling**
+#### Pattern C: Instruction Scaling
 Test with increasing numbers of simultaneous constraints (3, 5, 10, 15+). Measure compliance rate at each level. This reveals the agent's instruction-following capacity and identifies the threshold where it starts dropping requirements.
 
-**Pattern D: Ambiguous Requirement Interpretation**
+#### Pattern D: Ambiguous Requirement Interpretation
 Provide a vague requirement like "make the API more robust." Evaluate whether the agent asks clarifying questions, makes reasonable assumptions and documents them, or silently interprets the requirement in an unexpected way.
 
 ### Practical Examples
@@ -199,7 +207,7 @@ Provide a vague requirement like "make the API more robust." Evaluate whether th
 
 ---
 
-## 4. Multi-Dimensional Code Quality
+## Scenario 4: Multi-Dimensional Code Quality (CAP-AC-04)
 
 Beyond correctness, does agent-written code meet quality standards for performance, style, and maintainability?
 
@@ -234,16 +242,16 @@ Your coding agent's output goes through code review, and "it passes the tests" i
 
 ### Evaluation Patterns
 
-**Pattern A: Correctness Gate**
+#### Pattern A: Correctness Gate
 The first and non-negotiable gate: does the code compile, and do all tests pass? This is the minimum bar. Code that fails this gate is not evaluated further. Track the pass rate separately from quality scores.
 
-**Pattern B: Performance Benchmarking**
+#### Pattern B: Performance Benchmarking
 Run performance tests on agent-generated code: execution time, memory usage, and algorithmic complexity. Compare against a reference implementation or performance budget. Example: "The search endpoint must respond in under 200ms for 10,000 records."
 
-**Pattern C: Style and Convention Compliance**
+#### Pattern C: Style and Convention Compliance
 Run the project's linter and formatter on agent-generated code. Count violations. Check naming conventions, import ordering, documentation strings, and project-specific patterns. This is automatable and should be part of every evaluation run.
 
-**Pattern D: Maintainability Assessment**
+#### Pattern D: Maintainability Assessment
 Evaluate cyclomatic complexity, function length, module coupling, and documentation coverage. Use static analysis tools (e.g., radon, SonarQube, ESLint complexity rules) to quantify. A human or LLM-as-judge review assesses whether the code is easy to understand and modify.
 
 ### Practical Examples
@@ -265,7 +273,7 @@ Evaluate cyclomatic complexity, function length, module coupling, and documentat
 
 ---
 
-## 5. Security Vulnerability Introduction
+## Scenario 5: Security Vulnerability Introduction (CAP-AC-05)
 
 Does the agent introduce security vulnerabilities in the code it writes or modifies?
 
@@ -298,16 +306,16 @@ Your coding agent writes or modifies code that handles user data, authentication
 
 ### Evaluation Patterns
 
-**Pattern A: Known Vulnerability Injection Testing**
+#### Pattern A: Known Vulnerability Injection Testing
 Deliberately request implementations that are prone to OWASP Top 10 vulnerabilities. Example: "Add a user search that queries the database by username." Verify the agent uses parameterized queries, not string concatenation. Test for SQL injection, XSS, SSRF, and path traversal.
 
-**Pattern B: Secure Default Verification**
+#### Pattern B: Secure Default Verification
 Request features involving authentication, encryption, or access control. Verify the agent uses secure defaults: HTTPS not HTTP, bcrypt not MD5 for passwords, least-privilege database connections, secure cookie flags, CSRF tokens.
 
-**Pattern C: Secret and Credential Handling**
+#### Pattern C: Secret and Credential Handling
 Request code that requires API keys, database passwords, or tokens. Verify the agent uses environment variables or a secrets manager — not hardcoded values in source code. Check that `.gitignore` is updated and no secrets appear in committed code.
 
-**Pattern D: Dependency Security**
+#### Pattern D: Dependency Security
 When the agent adds new packages or libraries, verify they are not known-vulnerable versions. Run `npm audit`, `pip-audit`, `cargo audit`, or equivalent. Check that the agent pins dependency versions rather than using wildcards.
 
 ### Practical Examples
@@ -330,7 +338,7 @@ When the agent adds new packages or libraries, verify they are not known-vulnera
 
 ---
 
-## 6. Long-Horizon Task Persistence & Regression
+## Scenario 6: Long-Horizon Task Persistence & Regression (CAP-AC-06)
 
 Can the agent sustain quality across long, multi-step coding tasks without introducing regressions or getting stuck?
 
@@ -363,16 +371,16 @@ Your coding agent handles tasks requiring 10+ steps, multi-file changes, or iter
 
 ### Evaluation Patterns
 
-**Pattern A: Multi-Step Task with Checkpoints**
+#### Pattern A: Multi-Step Task with Checkpoints
 Assign a task with 10+ steps. After each logical step, run the full test suite to verify no regressions. Track: how many steps complete before the first regression? How many steps complete before the agent gives up or gets stuck?
 
-**Pattern B: Regression Detection**
+#### Pattern B: Regression Detection
 After the agent completes a multi-file change, run the entire existing test suite — not just the new tests. Track the regression rate: (tests that newly fail after agent changes) / (tests that passed before). Any regression rate above 0% is a finding worth investigating.
 
-**Pattern C: Recovery from Dead-End**
+#### Pattern C: Recovery from Dead-End
 Design a task where the first apparent approach hits a blocker (e.g., a dependency conflict, a circular import, a test framework limitation). Verify the agent detects the dead end, backtracks, and tries an alternative approach — rather than looping on the failed approach or giving up.
 
-**Pattern D: Cross-Session Continuity**
+#### Pattern D: Cross-Session Continuity
 Interrupt the agent mid-task and resume in a new session with the partial work committed. Verify the agent understands the current state, picks up where it left off, and does not redo completed work or contradict previous decisions.
 
 ### Practical Examples
