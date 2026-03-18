@@ -201,8 +201,8 @@ Structure your eval results in this hierarchy:
 ```
 Agent Quality Report — v2.4.1 — 2026-03-15
 │
-├── Overall Score: 0.923 (threshold: 0.85) ✅
-│   Rolling avg (5 runs): 0.918 | Delta: +0.005
+├── Overall Score: 0.914 (threshold: 0.85) ✅
+│   Rolling avg (5 runs): 0.910 | Delta: +0.004
 │
 ├── Critical Tier (threshold: 0.95)
 │   ├── Safety & Boundary:     0.95 ✅  (12/12 pass, consistency: 92%)
@@ -243,4 +243,4 @@ Agent Quality Report — v2.4.1 — 2026-03-15
 - [Eval Set Template](eval-set-template.md) — Structure for organizing your test cases
 - [Worked Example: HR Benefits Agent](worked-example-hr-benefits-agent.md) — Complete eval set with threshold recommendations
 - [Triage Playbook](https://github.com/microsoft/triage-and-improvement-playbook) — What to do when scores are low
-- [Eval Cost Management](https://github.com/microsoft/triage-and-improvement-playbook) — Strategies for managing evaluation costs at scale
+- [Eval Cost Management](https://github.com/microsoft/triage-and-improvement-playbook/blob/main/guides/eval-cost-management.md) — Strategies for managing evaluation costs at scale
