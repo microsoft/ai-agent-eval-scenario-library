@@ -74,7 +74,6 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Is about to be updated or republished | [Regression Testing](capability-scenarios/regression-testing.md) + all sections previously passing |
 | Processes images, screenshots, charts, or documents with visual content | [Multi-Modal Agent Evaluation](capability-scenarios/multi-modal-agent-evaluation.md) + [Knowledge Grounding](capability-scenarios/knowledge-grounding-and-accuracy.md) |
 | Automates GUI tasks (browser, desktop, mobile) | [Multi-Modal Agent Evaluation](capability-scenarios/multi-modal-agent-evaluation.md) (GUI scenarios) + [Tool Invocations](capability-scenarios/tool-and-connector-invocations.md) |
-| Coordinates multiple AI agents on shared tasks | [Multi-Agent System Evaluation](capability-scenarios/multi-agent-system-evaluation.md) + [Graceful Failure](capability-scenarios/graceful-failure-and-escalation.md) |
 
 > **Tip:** Most agents match multiple rows. An agent that answers HR questions from SharePoint AND submits PTO requests via Power Automate would combine rows 1 and 2.
 
@@ -103,7 +102,6 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Verify my agent actually understands images, not just text | [Multi-Modal Agent Evaluation](capability-scenarios/multi-modal-agent-evaluation.md) (visual grounding scenarios) |
 | Test whether my agent detects contradictions between text and images | [Multi-Modal Agent Evaluation](capability-scenarios/multi-modal-agent-evaluation.md) (cross-modal consistency scenarios) |
 | Measure reliability across repeated attempts (pass@k) | [Multi-Modal Agent Evaluation](capability-scenarios/multi-modal-agent-evaluation.md) (reliability scenarios) |
-| Evaluate multi-agent delegation and coordination | [Multi-Agent System Evaluation](capability-scenarios/multi-agent-system-evaluation.md) |
 
 ---
 
@@ -148,7 +146,6 @@ ai-agent-eval-scenario-library/
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
 │   ├── regression-testing.md
-│   ├── multi-agent-system-evaluation.md
 │   └── multi-modal-agent-evaluation.md
 │
 └── resources/

@@ -10,11 +10,11 @@
 
 Multi-modal agents are deployed in high-stakes settings — document processing that combines text and images, GUI automation that requires screenshot understanding, and customer interactions that span voice, text, and visual media. Standard text-only evaluation misses the failure modes unique to multi-modal reasoning:
 
-- **Fake visual grounding.** The agent appears to understand an image but is actually answering from text cues or parametric knowledge. Swap the image and the answer doesn't change — the agent never looked at it. Research shows current VLMs frequently use text shortcuts rather than genuine image understanding (ICLR 2025 ablation studies).
+- **Fake visual grounding.** The agent appears to understand an image but is actually answering from text cues or parametric knowledge. Swap the image and the answer doesn't change — the agent never looked at it. Current VLMs can frequently use text shortcuts rather than genuine image understanding, as suggested by ablation studies in the literature.
 - **Cross-modal contradictions.** Text says one thing, the image shows another. The agent picks one modality and ignores the conflict instead of flagging it. In document processing, this produces silently wrong extractions.
-- **GUI task fragility.** The agent can describe a screenshot but cannot reliably execute multi-step GUI workflows from visual observation alone. OSWorld benchmarks show a 30+ point gap between human performance (~72%) and the best AI agents (~38%) on screenshot-based tasks.
-- **Reliability illusions.** An agent that passes 80% of the time on any single attempt (pass@1) may fail catastrophically when you need it to succeed 8 times in a row (pass^8). Enterprise deployment needs consistency, not peak performance. The distinction between pass@k and pass^k (from tau-bench) reveals whether an agent is production-ready.
-- **Session meltdowns.** Multi-modal agents lose coherence over long sessions — not because they hit context limits, but because accumulated state degrades reasoning. These meltdowns are sudden, not gradual, and uncorrelated with context window utilization (Vending-Bench).
+- **GUI task fragility.** The agent can describe a screenshot but cannot reliably execute multi-step GUI workflows from visual observation alone. OSWorld (ICML 2024) benchmarks suggest a significant gap between human performance and current AI agents on screenshot-based tasks.
+- **Reliability illusions.** An agent that passes 80% of the time on any single attempt (pass@1) may fail catastrophically when you need it to succeed 8 times in a row (pass^8). Enterprise deployment needs consistency, not peak performance. The distinction between pass@k and pass^k (introduced by tau-bench) can help reveal whether an agent is production-ready.
+- **Session meltdowns.** Multi-modal agents lose coherence over long sessions — not because they hit context limits, but because accumulated state degrades reasoning. These meltdowns may be sudden rather than gradual and may not correlate with context window utilization, as observed in Vending-Bench experiments.
 
 The **Ground-Verify-Sustain** framework structures multi-modal evaluation in three phases: first verify the agent genuinely _grounds_ its reasoning in each modality, then _verify_ cross-modal consistency and task accuracy, then test whether performance _sustains_ across repeated runs and extended sessions.
 
@@ -79,8 +79,8 @@ For specialized domains (medical imaging, architectural plans, financial charts)
 
 ### Practical Examples
 
-| # | Scenario | Sample Input | Expected Behavior | Method |
-|---|----------|-------------|-------------------|--------|
+| # | Scenario | Sample Input | Expected Value / Capability | Method |
+|---|----------|-------------|---------------------------|--------|
 | 1 | Chart reading requires actual chart | "What was the revenue in Q3?" + bar chart image | Extracts correct Q3 value from the chart; different chart gives different value | Compare Meaning + image swap ablation |
 | 2 | Object identification in scene | "How many red chairs are in this room?" + room photo | Counts chairs visible in the image, not from text context | Keyword Match (count) |
 | 3 | Visual detail not in text | "What color is the warning indicator?" + dashboard screenshot | Names the correct color visible in the screenshot | Compare Meaning |
@@ -112,7 +112,7 @@ Use this scenario when:
 - Your agent synthesizes information from visual and textual inputs into a single response
 - You are building a document extraction pipeline where accuracy is critical
 
-> **Related scenarios:** For single-modality conflict handling, see [Knowledge Grounding & Accuracy, Scenario 3: Conflicting Sources](knowledge-grounding-and-accuracy.md). For multi-agent conflict resolution, see [Multi-Agent System Evaluation, Scenario 3](multi-agent-system-evaluation.md). This scenario evaluates conflict detection _across modalities_.
+> **Related scenarios:** For single-modality conflict handling, see [Knowledge Grounding & Accuracy, Scenario 3: Conflicting Sources](knowledge-grounding-and-accuracy.md). For multi-component coordination evaluation, see [Tool & Connector Invocations](tool-and-connector-invocations.md). This scenario evaluates conflict detection _across modalities_.
 
 ### Recommended Test Methods
 
@@ -153,8 +153,8 @@ When the agent detects a conflict, evaluate the quality of its resolution. Does 
 
 ### Practical Examples
 
-| # | Scenario | Sample Input | Expected Behavior | Method |
-|---|----------|-------------|-------------------|--------|
+| # | Scenario | Sample Input | Expected Value / Capability | Method |
+|---|----------|-------------|---------------------------|--------|
 | 1 | Text-chart revenue conflict | Text: "Q3 revenue was $4.2M" + Chart showing Q3 bar at ~$3.8M | Flags discrepancy: "The text states $4.2M but the chart appears to show approximately $3.8M" | Compare Meaning + Keyword Match |
 | 2 | Image-text color conflict | Text: "The product comes in blue" + Photo showing a red product | Identifies that the image shows red while the text says blue | Compare Meaning |
 | 3 | Subtle numerical discrepancy | Text: "Growth was approximately 15%" + Chart showing 14.2% | Acknowledges minor discrepancy or treats as acceptable rounding (either is acceptable) | Compare Meaning |
@@ -186,16 +186,16 @@ Use this scenario when:
 - You are comparing agents or models for GUI automation capability
 - Your agent needs to handle UI variations (different themes, resolutions, or layouts)
 
-> **Related scenarios:** For evaluating tool invocations in general, see [Tool & Connector Invocations](tool-and-connector-invocations.md). For multi-step process evaluation, see [Process Navigation & Multi-Step Guidance](../business-problem-scenarios/process-navigation-and-multistep-guidance.md). This scenario specifically evaluates visual GUI navigation where the agent must interpret screenshots to determine its actions.
+> **Related scenarios:** For evaluating tool invocations in general, see [Tool & Connector Invocations](tool-and-connector-invocations.md). For multi-step process evaluation, see [Tool & Connector Invocations, Scenario 6: Multi-Tool Orchestration](tool-and-connector-invocations.md). This scenario specifically evaluates visual GUI navigation where the agent must interpret screenshots to determine its actions.
 
 ### Recommended Test Methods
 
 | Method | Purpose |
 |--------|---------|
 | Trajectory Match (In-Order) | Verify the agent performs GUI steps in the correct sequence |
-| Milestone Achievement Rate | Track completion of intermediate sub-goals, not just the final outcome |
+| Milestone Achievement Rate (checking whether the agent reaches defined intermediate objectives in a task) | Track completion of intermediate sub-goals, not just the final outcome |
 | Capability Use (All) | Confirm the agent interacted with the correct UI elements |
-| Latency Measurement | Measure time-to-completion for multi-step workflows |
+| Latency Measurement (tracking wall-clock time per step and end-to-end) | Measure time-to-completion for multi-step workflows |
 
 > **Tip:** Binary pass/fail scoring massively undervalues GUI agents. An agent that completes 4 out of 5 steps gets the same score as one that fails immediately. Use graph-based sub-goal evaluation to measure partial progress — it reveals which steps are bottlenecks and provides actionable improvement signals.
 
@@ -229,21 +229,21 @@ Deliberately introduce wrong states — navigating to the wrong page, clicking t
 
 ### Practical Examples
 
-| # | Scenario | Task | Sub-Goals | Key Metric |
-|---|----------|------|-----------|------------|
-| 1 | Web form completion | Fill out a job application form across 3 pages | Navigate to form (1/5) -> fill personal info (2/5) -> upload resume (3/5) -> fill experience (4/5) -> submit (5/5) | Sub-goal completion fraction |
-| 2 | E-commerce purchase flow | Find and purchase a specific product | Search (1/4) -> select item (2/4) -> add to cart (3/4) -> checkout (4/4) | End-to-end success rate |
-| 3 | Dark mode robustness | Complete task in both light and dark themes | Same sub-goals, different visual presentation | Performance delta between themes |
-| 4 | Popup handling | Complete task when cookie consent banner appears mid-flow | Dismiss popup + resume original task flow | Recovery rate after interruption |
-| 5 | Dynamic content navigation | Navigate a page with lazy-loaded content and infinite scroll | Find target content that requires scrolling past dynamically loaded sections | Scroll efficiency and target identification accuracy |
-| 6 | Error recovery from wrong page | Agent is placed on an incorrect page mid-task | Detect wrong state -> navigate back -> resume correct flow | Recovery success rate and additional steps required |
+| # | Scenario | Sample Input | Expected Value / Capability | Method |
+|---|----------|-------------|---------------------------|--------|
+| 1 | Web form completion | "Fill out a job application form" + 3-page form screenshot | Completes sub-goals: navigate to form, fill personal info, upload resume, fill experience, submit (5/5) | Trajectory Match (In-Order) + Milestone Achievement Rate |
+| 2 | E-commerce purchase flow | "Find and buy wireless headphones" + store homepage screenshot | Completes sub-goals: search, select item, add to cart, checkout (4/4) | Trajectory Match (In-Order) + Milestone Achievement Rate |
+| 3 | Dark mode robustness | Same task with light and dark theme screenshots | Same sub-goals completed in both themes; less than 10% accuracy delta | Compare Meaning + Milestone Achievement Rate |
+| 4 | Popup handling | "Search for headphones" + page screenshot with cookie consent banner | Dismisses popup and resumes original task flow | Capability Use (All) + Trajectory Match (In-Order) |
+| 5 | Dynamic content navigation | "Find the pricing section" + page with lazy-loaded content | Locates target content by scrolling past dynamically loaded sections | Capability Use (All) + Compare Meaning |
+| 6 | Error recovery from wrong page | Agent placed on incorrect page mid-task + wrong-page screenshot | Detects wrong state, navigates back, resumes correct flow | Trajectory Match (In-Order) + Compare Meaning |
 
 ### Tips
 
 - **Always use sub-goal scoring**, not just binary pass/fail. It provides 5-10x more information per test run.
 - **Test with at least 3 trials per task** to measure consistency. A single successful run is not evidence of reliability.
 - **Include at least 20% "noisy" environments** — popups, overlays, loading states — in your test suite.
-- **Benchmark against the human-AI gap.** OSWorld shows humans at ~72% and best AI at ~38% on screenshot-based tasks. If your agent claims higher than ~45%, verify your eval isn't too easy.
+- **Benchmark against the human-AI gap.** Published OSWorld benchmarks report a substantial human-AI gap on screenshot-based tasks. If your agent scores significantly above published state-of-the-art, verify your eval methodology is sufficiently rigorous.
 - **Target: 60%+ sub-goal completion** for production-ready agents, with step efficiency under 1.5x.
 
 ---
@@ -251,6 +251,8 @@ Deliberately introduce wrong states — navigating to the wrong page, clicking t
 ## 4. Reliability and Consistency (Pass@k vs Pass^k)
 
 Does the agent succeed reliably across repeated attempts, or is it only sometimes correct?
+
+> **Why this is in the multi-modal guide:** While pass@k vs pass^k analysis applies to any agent, multi-modal agents typically exhibit higher variance than text-only agents because vision and GUI interpretation introduce additional sources of non-determinism (image encoding, screenshot rendering, OCR variability). Multi-modal tasks tend to show wider pass@1-to-pass^k gaps, making reliability testing especially critical for multi-modal deployments.
 
 ### When to Use
 
@@ -263,17 +265,17 @@ Use this scenario when:
 - You want to understand whether observed accuracy reflects true capability or lucky sampling
 - Stakeholders equate "it worked in the demo" with "it's ready for production"
 
-> **Related scenarios:** For evaluating regression across updates, see [Regression Testing](regression-testing.md). For cost implications of retry strategies, see [Cost-Efficiency Evaluation](cost-efficiency-evaluation.md). This scenario focuses on measuring inherent reliability independent of the task being performed.
+> **Related scenarios:** For evaluating regression across updates, see [Regression Testing](regression-testing.md). For cost implications of retry strategies, see [Tool & Connector Invocations](tool-and-connector-invocations.md). This scenario focuses on measuring inherent reliability independent of the task being performed.
 
 ### Recommended Test Methods
 
 | Method | Purpose |
 |--------|---------|
-| Repeated Trial Execution | Run identical inputs k times (k=8 recommended) to measure consistency |
+| Repeated Trial Execution (running the same input multiple times to measure variance) | Run identical inputs k times (k=8 recommended) to measure consistency |
 | Compare Meaning | Verify semantic correctness of each trial independently |
-| Statistical Analysis | Calculate pass@1, pass@k, and pass^k metrics with confidence intervals |
+| Statistical Analysis (aggregating trial results into pass@1, pass@k, and pass^k metrics) | Calculate pass@1, pass@k, and pass^k metrics with confidence intervals |
 
-> **Tip:** The key insight from tau-bench: pass@1 of 80% can coexist with pass^8 under 20%. If your agent needs to handle 8 similar requests correctly in a row (a normal day for a customer service agent), pass^8 is the metric that predicts production performance, not pass@1.
+> **Tip:** A key insight from reliability research (e.g., tau-bench): pass@1 and pass^k can diverge substantially. If your agent needs to handle 8 similar requests correctly in a row (a normal day for a customer service agent), pass^8 is the metric that predicts production performance, not pass@1.
 
 ### Setup Steps
 
@@ -292,7 +294,7 @@ Use this scenario when:
 ### Anti-Pattern
 
 > **Anti-Pattern: Reporting Only pass@1**
-> Most benchmarks report pass@1 (best of k attempts), which measures peak capability. This dramatically overstates production readiness. An agent with 80% pass@1 sounds deployment-ready, but if pass^8 is 17%, it means in a typical 8-interaction session a user will encounter at least one failure with 83% probability. Always report both metrics together.
+> Most benchmarks report pass@1 (best of k attempts), which measures peak capability. This dramatically overstates production readiness. An agent with high pass@1 may sound deployment-ready, but pass^k can be substantially lower, meaning users in multi-interaction sessions are likely to encounter at least one failure. Always report both metrics together.
 
 ### Evaluation Patterns
 
@@ -310,13 +312,13 @@ Run the full evaluation at multiple temperature settings (e.g., 0.0, 0.3, 0.7, 1
 
 ### Practical Examples
 
-| # | Scenario | Setup | Key Comparison | Insight |
-|---|----------|-------|---------------|---------|
-| 1 | Customer service reliability | 30 common customer queries, k=8 each | pass@1 = 85%, pass^8 = 27% | Agent is capable but unreliable — needs retry logic or routing |
-| 2 | Model comparison for reliability | Same 50 tasks on Model A vs Model B, k=8 | Model A: pass@1=90%, pass^8=43%. Model B: pass@1=82%, pass^8=51% | Model B is more reliable despite lower peak accuracy |
-| 3 | Task variance analysis | 50 tasks, k=8, sorted by variance | Top 10 variance tasks are all multi-step reasoning | Multi-step tasks need different handling (decomposition, verification) |
-| 4 | Temperature optimization | Same tasks at temp 0.0, 0.3, 0.7, 1.0 | pass^8 peaks at temp=0.3 for factual tasks, temp=0.7 for creative | Use temperature routing: factual=0.3, creative=0.7 |
-| 5 | Retry strategy justification | Calculate: P(success in 3 tries) from pass@1 data | If pass@1=80%, P(at least 1 success in 3)=99.2% | Retry with 3 attempts achieves acceptable reliability at 3x cost |
+| # | Scenario | Sample Input | Expected Value / Capability | Method |
+|---|----------|-------------|---------------------------|--------|
+| 1 | Customer service reliability | 30 common customer queries, each run k=8 times | pass^8 >= 50% for production readiness | Repeated Trial Execution + Statistical Analysis |
+| 2 | Model comparison for reliability | Same 50 tasks on Model A vs Model B, k=8 each | Higher pass^8 model preferred even if pass@1 is lower | Repeated Trial Execution + Statistical Analysis |
+| 3 | Task variance analysis | 50 tasks, k=8, sorted by per-task variance | High-variance tasks identified as reliability bottleneck | Repeated Trial Execution + Statistical Analysis |
+| 4 | Temperature optimization | Same tasks at temperature 0.0, 0.3, 0.7, 1.0 | pass^8 peaks at optimal temperature per task type | Repeated Trial Execution + Statistical Analysis |
+| 5 | Retry strategy justification | Same tasks with retry-on-failure (max 3 attempts) | P(at least 1 success in 3 tries) justifies retry cost | Repeated Trial Execution + Statistical Analysis |
 
 ### Tips
 
@@ -334,7 +336,7 @@ Does the agent maintain coherent performance over long sessions, or does it degr
 
 ### When to Use
 
-Your agent handles long-running sessions — multi-turn conversations, extended document processing, or sequential task execution over many steps. You need to verify it maintains quality throughout the session and detect if and when coherence degrades. Crucially, research shows agent "meltdowns" are sudden rather than gradual and are NOT correlated with context window utilization — they represent a fundamental coherence failure, not a memory limitation.
+Your agent handles long-running sessions — multi-turn conversations, extended document processing, or sequential task execution over many steps. You need to verify it maintains quality throughout the session and detect if and when coherence degrades. Notably, some research (e.g., Vending-Bench) suggests that agent "meltdowns" can be sudden rather than gradual and may not correlate with context window utilization — potentially representing a coherence failure rather than a memory limitation.
 
 Use this scenario when:
 - Your agent handles sessions with 20+ turns or steps
@@ -343,16 +345,16 @@ Use this scenario when:
 - Your agent performs sequential tasks where later steps depend on earlier context
 - You need to define session length limits or circuit breaker policies
 
-> **Related scenarios:** For evaluating conversation quality in individual turns, see [Tone, Helpfulness & Response Quality](tone-helpfulness-and-response-quality.md). For multi-agent fault tolerance, see [Multi-Agent System Evaluation, Scenario 4](multi-agent-system-evaluation.md). This scenario evaluates single-agent coherence degradation over time.
+> **Related scenarios:** For evaluating conversation quality in individual turns, see [Tone, Helpfulness & Response Quality](tone-helpfulness-and-response-quality.md). For error recovery evaluation, see [Graceful Failure & Escalation](graceful-failure-and-escalation.md). This scenario evaluates single-agent coherence degradation over time.
 
 ### Recommended Test Methods
 
 | Method | Purpose |
 |--------|---------|
 | Compare Meaning | Score each response against ground truth at regular intervals throughout the session |
-| Consistency Check | Verify the agent doesn't contradict its own earlier statements or outputs |
+| Consistency Check (comparing current output against the agent's own prior statements for contradictions) | Verify the agent doesn't contradict its own earlier statements or outputs |
 | Trajectory Match (In-Order) | Verify the agent follows a logical progression and doesn't loop or regress |
-| Keyword Match (Absence) | Detect hallucination markers or incoherent outputs that signal meltdown onset |
+| Keyword Match (Absence) (verifying that specific unwanted terms or patterns do NOT appear in the output) | Detect hallucination markers or incoherent outputs that signal meltdown onset |
 
 > **Tip:** Don't just measure average session quality — plot quality over time. A session with 95% average quality that has one catastrophic meltdown at step 47 is far more dangerous than a session with 85% average quality that's consistent throughout. The spike matters more than the average.
 
@@ -363,12 +365,12 @@ Use this scenario when:
 3. **Define meltdown indicators.** Catalog the specific failure modes that indicate coherence loss: repeating earlier outputs verbatim, contradicting previous statements, hallucinating information not in the input, losing track of the task structure, or producing incoherent text.
 4. **Instrument quality scoring per step.** Score each step independently on a 1-5 scale covering: task relevance (is the output about the right thing?), factual accuracy (is the content correct?), and contextual coherence (does it build on previous steps appropriately?).
 5. **Run sessions of varying lengths.** Test at 10, 25, 50, and 100+ steps. Compare quality curves to identify the degradation onset point.
-6. **Log context utilization.** Track token count and context window utilization at each step. Compare against quality scores to verify whether degradation correlates with context limits (research suggests it doesn't).
+6. **Log context utilization.** Track token count and context window utilization at each step. Compare against quality scores to verify whether degradation correlates with context limits (some research suggests it may not).
 
 ### Anti-Pattern
 
 > **Anti-Pattern: Assuming Context Window = Coherence Limit**
-> Teams commonly set session length limits based on context window size (e.g., "our model supports 128K tokens, so sessions up to 100K should be fine"). Research from Vending-Bench shows meltdowns occur well before context limits and are uncorrelated with context utilization. Always empirically test coherence limits — don't derive them from spec sheets.
+> Teams commonly set session length limits based on context window size (e.g., "our model supports 128K tokens, so sessions up to 100K should be fine"). Vending-Bench experiments suggest that meltdowns can occur well before context limits and may not correlate with context utilization. Always empirically test coherence limits — don't derive them from spec sheets.
 
 ### Evaluation Patterns
 
@@ -386,14 +388,14 @@ Compare multiple models or configurations on the same extended session tasks. Pl
 
 ### Practical Examples
 
-| # | Scenario | Session Design | Measurement Points | Key Metric |
-|---|----------|---------------|-------------------|------------|
-| 1 | Long document analysis | 50-page document, analyze section by section | Quality score per section + coherence probes every 5 sections | Coherence probe accuracy at section 40+ |
-| 2 | Extended customer service | 40-turn customer conversation with escalating complexity | Quality per turn + consistency with earlier turns | Turn at which first contradiction appears |
-| 3 | Sequential task marathon | 30 independent tasks in one session (no reset between tasks) | Accuracy per task, plotted over task sequence | Task number where accuracy drops below baseline |
-| 4 | Context probe at limits | 100-turn conversation with "recall turn 5" probes at turns 25, 50, 75, 100 | Probe accuracy at each checkpoint | Probe accuracy curve (expected: declining) |
-| 5 | Meltdown circuit breaker | Deliberately run sessions past known coherence limits | Meltdown detection latency (steps from onset to detection) | Detection within 2 steps of onset |
-| 6 | Recovery after session reset | At meltdown detection, summarize context and restart session | Quality comparison: pre-meltdown vs post-reset | Whether quality recovers to baseline after reset |
+| # | Scenario | Sample Input | Expected Value / Capability | Method |
+|---|----------|-------------|---------------------------|--------|
+| 1 | Long document analysis | 50-page document, analyze section by section with probes every 5 sections | Coherence probe accuracy remains above 80% through section 40+ | Compare Meaning + Consistency Check |
+| 2 | Extended customer service | 40-turn conversation with escalating complexity | No contradictions with earlier turns; quality stays above baseline | Compare Meaning + Consistency Check |
+| 3 | Sequential task marathon | 30 independent tasks in one session (no context reset) | Accuracy per task does not drop below baseline over the sequence | Compare Meaning + Consistency Check |
+| 4 | Context probe at limits | 100-turn conversation with "recall turn 5" probes at turns 25, 50, 75, 100 | Probe accuracy above 80% at turn 50; declining curve expected | Compare Meaning + Consistency Check |
+| 5 | Meltdown circuit breaker | Deliberately run sessions past known coherence limits | Meltdown detected within 2 steps of onset | Keyword Match (Absence) + Consistency Check |
+| 6 | Recovery after session reset | At meltdown detection, summarize context and restart session | Quality recovers to within 10% of initial baseline after reset | Compare Meaning + Consistency Check |
 
 ### Tips
 
