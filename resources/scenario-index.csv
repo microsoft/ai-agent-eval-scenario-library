@@ -73,3 +73,7 @@ CAP-RT-02,Regression Check After Topic or Flow Changes,Capability,Regression Tes
 CAP-RT-03,Regression Check After Tool Configuration Changes,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
 CAP-RT-04,Full-Suite Regression Before Publishing,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
 CAP-RT-05,Targeted Regression for Specific Capability,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
+CAP-HITL-01,Confidence-Based Escalation Calibration,Capability,Human-in-the-Loop Evaluation,Architecture,capability-scenarios/human-in-the-loop-evaluation.md
+CAP-HITL-02,Human Evaluator Quality & Inter-Rater Reliability,Capability,Human-in-the-Loop Evaluation,Cross-Cutting,capability-scenarios/human-in-the-loop-evaluation.md
+CAP-HITL-03,Approval Workflow Evaluation,Capability,Human-in-the-Loop Evaluation,Architecture,capability-scenarios/human-in-the-loop-evaluation.md
+CAP-HITL-04,Hybrid AI-Human Evaluation at Scale,Capability,Human-in-the-Loop Evaluation,Cross-Cutting,capability-scenarios/human-in-the-loop-evaluation.md
