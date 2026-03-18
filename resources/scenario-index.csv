@@ -73,3 +73,10 @@ CAP-RT-02,Regression Check After Topic or Flow Changes,Capability,Regression Tes
 CAP-RT-03,Regression Check After Tool Configuration Changes,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
 CAP-RT-04,Full-Suite Regression Before Publishing,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
 CAP-RT-05,Targeted Regression for Specific Capability,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
+CAP-MT-01,Context Retention Across Turns,Capability,Multi-Turn Conversation Quality,Architecture,capability-scenarios/multi-turn-conversation-quality.md
+CAP-MT-02,Coreference and Follow-Up Resolution,Capability,Multi-Turn Conversation Quality,Architecture,capability-scenarios/multi-turn-conversation-quality.md
+CAP-MT-03,Conversation Coherence Under Topic Switching,Capability,Multi-Turn Conversation Quality,Architecture,capability-scenarios/multi-turn-conversation-quality.md
+CAP-MT-04,Long Conversation Degradation,Capability,Multi-Turn Conversation Quality,Architecture,capability-scenarios/multi-turn-conversation-quality.md
+CAP-MT-05,Conversation Recovery After Misunderstanding,Capability,Multi-Turn Conversation Quality,Architecture + Edge Cases,capability-scenarios/multi-turn-conversation-quality.md
+CAP-MT-06,Consistent Persona and Behavior Across Turns,Capability,Multi-Turn Conversation Quality,Subjective Preferences,capability-scenarios/multi-turn-conversation-quality.md
+CAP-MT-07,Negative Test: Multi-Turn Context Manipulation,Capability,Multi-Turn Conversation Quality,Subjective Preferences,capability-scenarios/multi-turn-conversation-quality.md
