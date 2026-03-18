@@ -72,6 +72,8 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Serves external customers (not just internal employees) | [Tone & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) + [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Handles sensitive data (PII, financial, health) | [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Is about to be updated or republished | [Regression Testing](capability-scenarios/regression-testing.md) + all sections previously passing |
+| Processes images, screenshots, charts, or documents with visual content | [Multi-Modal Agent Evaluation](capability-scenarios/multi-modal-agent-evaluation.md) + [Knowledge Grounding](capability-scenarios/knowledge-grounding-and-accuracy.md) |
+| Automates GUI tasks (browser, desktop, mobile) | [Multi-Modal Agent Evaluation](capability-scenarios/multi-modal-agent-evaluation.md) (GUI scenarios) + [Tool Invocations](capability-scenarios/tool-and-connector-invocations.md) |
 
 > **Tip:** Most agents match multiple rows. An agent that answers HR questions from SharePoint AND submits PTO requests via Power Automate would combine rows 1 and 2.
 
@@ -97,6 +99,9 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Confirm my agent escalates or declines appropriately when stuck | [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md) |
 | Ensure nothing broke before I publish an update | [Regression Testing](capability-scenarios/regression-testing.md) |
 | Make sure my agent tailors answers to user-specific context | [Information Retrieval & Policy Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) (personalization scenarios) |
+| Verify my agent actually understands images, not just text | [Multi-Modal Agent Evaluation](capability-scenarios/multi-modal-agent-evaluation.md) (visual grounding scenarios) |
+| Test whether my agent detects contradictions between text and images | [Multi-Modal Agent Evaluation](capability-scenarios/multi-modal-agent-evaluation.md) (cross-modal consistency scenarios) |
+| Measure reliability across repeated attempts (pass@k) | [Multi-Modal Agent Evaluation](capability-scenarios/multi-modal-agent-evaluation.md) (reliability scenarios) |
 
 ---
 
@@ -140,7 +145,8 @@ ai-agent-eval-scenario-library/
 │   ├── safety-and-boundary-enforcement.md
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
-│   └── regression-testing.md
+│   ├── regression-testing.md
+│   └── multi-modal-agent-evaluation.md
 │
 └── resources/
     ├── scenario-index.csv         ← Flat index of all scenarios (filterable)
