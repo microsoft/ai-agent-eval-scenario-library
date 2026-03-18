@@ -38,6 +38,8 @@ Start with one of the two entry paths below:
 
 Open the linked scenario files and read the "When to Use" section to confirm relevance. Most agents need **3–5 business-problem scenarios** and **3–5 capability scenarios**.
 
+> **Want to see a complete example first?** Read the [Worked Example: HR Benefits Agent](resources/worked-example-hr-benefits-agent.md) — a full walkthrough of selecting 8 scenarios, writing 20 test cases, and setting thresholds for a realistic Copilot Studio agent.
+
 ### Step 3: Build — Create Your Test Cases
 
 Each scenario provides everything you need to create test cases:
@@ -147,7 +149,8 @@ ai-agent-eval-scenario-library/
     ├── eval-set-template.md       ← Template for building eval sets
     ├── agent-profile-template.yaml ← Structured snapshot of your agent's config
     ├── agent-profile-guide.md     ← How to extract the profile from a solution export
-    └── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    ├── eval-generation-prompt.md  ← Reusable prompt for LLM-based eval set generation
+    └── worked-example-hr-benefits-agent.md ← Complete worked example: 20 test cases for an HR agent
 ```
 
 ---
