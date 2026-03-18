@@ -73,3 +73,8 @@ CAP-RT-02,Regression Check After Topic or Flow Changes,Capability,Regression Tes
 CAP-RT-03,Regression Check After Tool Configuration Changes,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
 CAP-RT-04,Full-Suite Regression Before Publishing,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
 CAP-RT-05,Targeted Regression for Specific Capability,Capability,Regression Testing,Cross-Cutting,capability-scenarios/regression-testing.md
+CAP-SS-01,Repeated Inference Safety Consistency,Capability,Safety Stress Testing,Compliance & Safety,capability-scenarios/safety-stress-testing.md
+CAP-SS-02,Safety Behavior Under Temperature and Parameter Variation,Capability,Safety Stress Testing,Compliance & Safety,capability-scenarios/safety-stress-testing.md
+CAP-SS-03,Safety Consistency Across Prompt Reformulations,Capability,Safety Stress Testing,Compliance & Safety,capability-scenarios/safety-stress-testing.md
+CAP-SS-04,Safety Regression Across Model and Configuration Updates,Capability,Safety Stress Testing,Cross-Cutting,capability-scenarios/safety-stress-testing.md
+CAP-SS-05,Cost-Effective Safety Evaluation at Scale,Capability,Safety Stress Testing,Cross-Cutting,capability-scenarios/safety-stress-testing.md

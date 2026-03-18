@@ -18,6 +18,7 @@ An agent can give the right answer from the wrong source. It can produce a helpf
 | 6 | **Tone, Helpfulness & Response Quality** | Appropriately styled? Empathetic? Well-structured? Complete? | [View scenarios](tone-helpfulness-and-response-quality.md) |
 | 7 | **Graceful Failure & Escalation** | When it can't help, does it fail well? Escalates appropriately? | [View scenarios](graceful-failure-and-escalation.md) |
 | 8 | **Regression Testing** | After an update, did anything break? Pre-publish validation. | [View scenarios](regression-testing.md) |
+| 9 | **Safety Stress Testing** | Safety consistent across repeated sampling? Robust under temperature variation? Survives prompt reformulation? No regression on model updates? | [View scenarios](safety-stress-testing.md) |
 
 ## How These Connect to Business-Problem Scenarios
 
