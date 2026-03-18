@@ -72,6 +72,7 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Serves external customers (not just internal employees) | [Tone & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) + [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Handles sensitive data (PII, financial, health) | [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
 | Is about to be updated or republished | [Regression Testing](capability-scenarios/regression-testing.md) + all sections previously passing |
+| Uses human reviewers or approval workflows | [Human-in-the-Loop Evaluation](capability-scenarios/human-in-the-loop-evaluation.md) + [Graceful Failure](capability-scenarios/graceful-failure-and-escalation.md) |
 
 > **Tip:** Most agents match multiple rows. An agent that answers HR questions from SharePoint AND submits PTO requests via Power Automate would combine rows 1 and 2.
 
@@ -97,6 +98,10 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Confirm my agent escalates or declines appropriately when stuck | [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md) |
 | Ensure nothing broke before I publish an update | [Regression Testing](capability-scenarios/regression-testing.md) |
 | Make sure my agent tailors answers to user-specific context | [Information Retrieval & Policy Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) (personalization scenarios) |
+| Evaluate whether my agent escalates to humans at the right times | [Human-in-the-Loop Evaluation](capability-scenarios/human-in-the-loop-evaluation.md) (escalation calibration) |
+| Ensure my human reviewers are consistent and reliable | [Human-in-the-Loop Evaluation](capability-scenarios/human-in-the-loop-evaluation.md) (inter-rater reliability) |
+| Test human approval workflows for high-stakes actions | [Human-in-the-Loop Evaluation](capability-scenarios/human-in-the-loop-evaluation.md) (approval workflows) |
+| Validate my AI-assisted evaluation system | [Human-in-the-Loop Evaluation](capability-scenarios/human-in-the-loop-evaluation.md) (hybrid AI-human evaluation) |
 
 ---
 
@@ -140,7 +145,8 @@ ai-agent-eval-scenario-library/
 │   ├── safety-and-boundary-enforcement.md
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
-│   └── regression-testing.md
+│   ├── regression-testing.md
+│   └── human-in-the-loop-evaluation.md
 │
 └── resources/
     ├── scenario-index.csv         ← Flat index of all scenarios (filterable)
