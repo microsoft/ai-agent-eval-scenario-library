@@ -6,17 +6,18 @@
 
 ---
 
-## Why Cost-Efficiency Evaluation Matters
+<details>
+<summary><strong>Why Cost-Efficiency Evaluation Matters</strong></summary>
 
-Enterprise LLM inference spending doubled from $3.5B to $8.4B between late 2024 and mid 2025, and 50–90% of that spend is addressable through optimization. Yet most teams treat cost as a deployment concern, not an evaluation concern. This is a mistake. Cost inefficiency compounds silently — by the time you notice the bill, you have already wasted months of budget on suboptimal configurations.
+Enterprise LLM inference spending has grown rapidly, and a significant share of that spend is addressable through optimization. Yet most teams treat cost as a deployment concern, not an evaluation concern. Cost inefficiency compounds silently — by the time you notice the bill, you have already wasted months of budget on suboptimal configurations.
 
 The core problem is that cost and quality are not independent dimensions. A cheaper model is not always worse. A more expensive evaluation judge is not always better. The relationship between cost and quality is nonlinear, task-dependent, and changes with every model update. Evaluation is the only systematic way to navigate this landscape.
 
-Three forces make cost-efficiency evaluation urgent in 2026:
+Three forces make cost-efficiency evaluation urgent:
 
 - **Model routing is now mainstream.** Systems like RouteLLM demonstrate 2× cost reduction while preserving 95% of frontier model quality. But routing only works if you can _evaluate_ whether the cheaper model actually handles each query class correctly. Without evaluation, you are guessing which queries are "easy enough" for the small model — and guessing wrong either wastes money (routing too conservatively) or degrades quality (routing too aggressively).
-- **Semantic caching is high-leverage but fragile.** Research shows 31% of production queries are near-duplicates, and semantic caching achieves 40–67% hit rates compared to 8–12% for exact-match caching. But cache quality degrades over time as ground truth shifts, and a stale cached response is worse than an expensive fresh one. Evaluation must verify that cached responses remain correct.
-- **Evaluation itself is a cost center.** The choice between LLM-as-Judge ($0.06 per scenario) and Agent-as-Judge ($0.96 per scenario — 16× more expensive, 62× slower) is itself a cost-quality tradeoff that must be evaluated. Running expensive judges on every production query is wasteful; running cheap judges on safety-critical decisions is reckless.
+- **Semantic caching is high-leverage but fragile.** Research shows a significant fraction of production queries are near-duplicates, and semantic caching achieves 40–67% hit rates compared to 8–12% for exact-match caching. But cache quality degrades over time as ground truth shifts, and a stale cached response is worse than an expensive fresh one. Evaluation must verify that cached responses remain correct.
+- **Evaluation itself is a cost center.** The cost difference between LLM-as-Judge and Agent-as-Judge approaches can be an order of magnitude or more (with agent-based judges also being significantly slower), making judge selection itself a cost-quality tradeoff that must be evaluated. Running expensive judges on every production query is wasteful; running cheap judges on safety-critical decisions is reckless.
 
 The **Route-Cache-Track** framework structures cost-efficiency evaluation in three layers: _Route_ queries to the cheapest capable model, _Cache_ responses to eliminate redundant computation, and _Track_ cost-per-task alongside quality to map the Pareto frontier and identify optimization opportunities.
 
@@ -24,9 +25,11 @@ The **Route-Cache-Track** framework structures cost-efficiency evaluation in thr
 
 > **Key references:** RouteLLM (COLM 2025), "AI Agents That Matter" (arXiv 2407.01502), "Efficient Agents" (arXiv 2508.02694), Anthropic's Swiss Cheese evaluation model, Tokenomics (arXiv 2601.14470), LLM-as-Judge vs Agent-as-Judge (arXiv 2512.12791), syftr multi-objective optimization (arXiv 2505.20266).
 
+</details>
+
 ---
 
-## 1. Model Routing Effectiveness
+## Scenario 1: Model Routing Effectiveness
 
 Evaluate whether a model routing strategy correctly classifies query complexity and routes to the cheapest capable model while maintaining quality thresholds.
 
@@ -51,6 +54,7 @@ Use this scenario when:
 | General Quality | Assess whether response quality from the cheaper model meets your quality floor for each query class |
 | Exact Match | Verify that factual queries routed to cheaper models still produce correct answers |
 | Capability Use (All) | Confirm that tool calls and structured outputs are preserved when queries are routed to smaller models |
+| Latency Measurement | Measure end-to-end response time to verify routing overhead does not exceed latency thresholds |
 
 > **Tip:** The critical evaluation is not whether the cheaper model produces _good_ responses — it is whether the _routing classifier_ correctly identifies which queries the cheaper model can handle. Build your test set around the routing boundary: queries that are just barely complex enough to need the frontier model, and queries that are just barely simple enough for the cheaper model. This boundary is where routing errors concentrate.
 
@@ -97,7 +101,7 @@ Calculate `cost_of_pass = total_cost / success_rate` for each model separately a
 
 ---
 
-## 2. Semantic Caching Quality Assurance
+## Scenario 2: Semantic Caching Quality Assurance
 
 Verify that semantic caching correctly identifies duplicate queries, that served cached responses maintain quality, and that cache staleness does not introduce errors.
 
@@ -122,6 +126,7 @@ Use this scenario when:
 | Exact Match | Confirm that factual data in cached responses matches current ground truth (catches staleness) |
 | Keyword Match (All) | Verify that critical facts, dates, and policy details in cached responses are current |
 | General Quality | Assess whether cached response quality matches fresh response quality |
+| Statistical Analysis | Aggregate cache hit rates, latency, and quality metrics across a representative query sample to assess overall cache performance |
 
 > **Tip:** The most dangerous caching failure is not a cache _miss_ (that just costs more) — it is a false _hit_: serving a cached response for a query that is superficially similar but semantically different. Build adversarial test pairs: queries with high lexical overlap but different intent (e.g., "cancel my order" vs. "can I cancel my order and reorder?"). These are where false hits concentrate.
 
@@ -161,20 +166,20 @@ Sweep the similarity threshold from 0.80 to 0.99 in 0.01 increments. At each thr
 
 ### Tips
 
-- The 31% near-duplicate rate in production traffic is an average across industries. Profile your own traffic — customer support tends to be higher (40–60% duplicates), technical documentation queries tend to be lower (15–25%).
+- The near-duplicate rate in production traffic varies across industries. Profile your own traffic — customer support tends to be higher (40–60% duplicates), technical documentation queries tend to be lower (15–25%).
 - Exact-match caching (8–12% hit rate) is worth implementing first as a baseline. It has zero false-hit risk and provides a comparison point for evaluating whether semantic caching's higher hit rate is worth the false-hit risk.
 - Cache invalidation is harder than cache population. Design your cache with knowledge-source-aware TTLs: entries derived from frequently updated sources get shorter TTLs than entries derived from stable policy documents.
 - Monitor cache hit rate trends over time. A steadily declining hit rate suggests your query distribution is diversifying (good for users, bad for cache ROI). A sudden spike in hit rate may indicate a bot or a service degradation funneling all users to the same error-handling query.
 
 ---
 
-## 3. Judge Cost-Quality Tradeoff
+## Scenario 3: Judge Cost-Quality Tradeoff
 
 Evaluate the cost vs. quality tradeoff between LLM-as-Judge and Agent-as-Judge approaches. Determine which evaluation method to use for continuous monitoring vs. pre-deployment audits.
 
 ### When to Use
 
-You are choosing between evaluation approaches with dramatically different cost profiles — and you need to determine which approach provides sufficient quality for each evaluation context. The difference is not marginal: LLM-as-Judge costs approximately $0.06 per scenario while Agent-as-Judge costs approximately $0.96 per scenario (16× more expensive and 62× slower). Using the wrong judge for the wrong context either wastes evaluation budget or misses quality issues.
+You are choosing between evaluation approaches with dramatically different cost profiles — and you need to determine which approach provides sufficient quality for each evaluation context. The difference is not marginal: Agent-as-Judge approaches can cost an order of magnitude more than LLM-as-Judge and run significantly slower. Using the wrong judge for the wrong context either wastes evaluation budget or misses quality issues.
 
 Use this scenario when:
 - You are designing an evaluation pipeline and need to select the right judge for each evaluation stage
@@ -192,6 +197,7 @@ Use this scenario when:
 | Compare Meaning | Compare judge verdicts: does the cheap judge agree with the expensive judge on semantic equivalence assessments? |
 | General Quality | Have both judges score the same responses; measure inter-judge agreement and correlation with human labels |
 | Exact Match | For objective evaluations (factual accuracy), verify both judges produce the same pass/fail verdict |
+| Statistical Analysis | Aggregate agreement rates, cost, and latency across the calibration dataset to quantify the cost-quality tradeoff |
 
 > **Tip:** The key metric is not whether the cheap judge is as _good_ as the expensive judge — it is whether the cheap judge's errors are _tolerable_ for the evaluation context. A 5% disagreement rate may be acceptable for daily production monitoring (where you are detecting trends, not making per-query decisions) but unacceptable for pre-deployment certification (where every verdict matters).
 
@@ -206,7 +212,7 @@ Use this scenario when:
 
 ### Anti-Pattern
 
-> **"One Judge Fits All"** — Using the same evaluation approach for every context, whether it is a $0.06 LLM judge on safety-critical decisions or a $0.96 Agent judge on routine quality monitoring. Evaluation strategy should be tiered: match judge sophistication to decision stakes. The cost of a missed safety issue far exceeds the cost of an expensive judge. The cost of over-evaluating routine queries far exceeds the incremental quality gain.
+> **"One Judge Fits All"** — Using the same evaluation approach for every context, whether it is a cheap LLM judge on safety-critical decisions or an expensive Agent judge on routine quality monitoring. Evaluation strategy should be tiered: match judge sophistication to decision stakes. The cost of a missed safety issue far exceeds the cost of an expensive judge. The cost of over-evaluating routine queries far exceeds the incremental quality gain.
 
 ### Evaluation Patterns
 
@@ -214,7 +220,7 @@ Use this scenario when:
 Measure judge agreement rate stratified by difficulty: easy cases (clear pass/fail), medium cases (mostly correct with minor issues), and hard cases (borderline quality). LLM judges typically agree with Agent judges 90%+ on easy cases but only 60–70% on hard cases. Use this stratification to define where the cheap judge is reliable and where escalation to the expensive judge is necessary.
 
 #### Pattern: Judge Cost-Effectiveness Ratio
-Calculate `judge_cost_effectiveness = accuracy_gain / cost_increase` for upgrading from LLM to Agent judge. If upgrading from LLM judge (85% human correlation, $0.06) to Agent judge (92% human correlation, $0.96), the cost-effectiveness ratio is `(0.92 - 0.85) / (0.96 - 0.06) = 0.078 accuracy points per dollar`. Compare this to other ways to spend that evaluation budget (e.g., more test cases with the cheaper judge).
+Calculate `judge_cost_effectiveness = accuracy_gain / cost_increase` for upgrading from LLM to Agent judge. For example, if upgrading from an LLM judge (85% human correlation) to an Agent judge (92% human correlation) costs 10× more per evaluation, determine whether the 7-percentage-point accuracy gain justifies the cost increase for your use case. Compare this to other ways to spend that evaluation budget (e.g., more test cases with the cheaper judge).
 
 #### Pattern: Escalation Pipeline
 Use the LLM judge as a first-pass filter. Cases it scores as clearly passing or clearly failing go directly to verdict. Cases it scores as borderline (within a configurable uncertainty band) are escalated to the Agent judge. This captures most of the Agent judge's accuracy benefit at a fraction of the cost — only 10–20% of cases typically need escalation.
@@ -223,7 +229,7 @@ Use the LLM judge as a first-pass filter. Cases it scores as clearly passing or 
 
 | # | Scenario | Sample Input | Expected Value / Capability | Method |
 |---|----------|-------------|----------------------------|--------|
-| 1 | LLM judge correctly identifies clear pass | Agent response that accurately answers a factual question with citations | Both judges score as pass; LLM judge cost ≈$0.06, Agent judge cost ≈$0.96 | General Quality + Compare Meaning |
+| 1 | LLM judge correctly identifies clear pass | Agent response that accurately answers a factual question with citations | Both judges score as pass; LLM judge cost is a fraction of Agent judge cost | General Quality + Compare Meaning |
 | 2 | LLM judge correctly identifies clear fail | Agent response that contains a factual error | Both judges score as fail; verdicts agree; LLM judge sufficient for this case | Exact Match + General Quality |
 | 3 | Borderline case reveals judge disagreement | Agent response that is partially correct but misses nuance | LLM judge may score as pass; Agent judge catches the nuance issue; human agrees with Agent judge | General Quality + Compare Meaning |
 | 4 | Escalation pipeline reduces cost while maintaining accuracy | 500 evaluation cases run through escalation pipeline | ≤20% of cases escalated to Agent judge; overall accuracy within 2% of full Agent-judge pipeline; cost reduction ≥70% | Statistical analysis |
@@ -232,13 +238,13 @@ Use the LLM judge as a first-pass filter. Cases it scores as clearly passing or 
 ### Tips
 
 - Run judge calibration quarterly. Model updates change judge behavior — an LLM judge that correlated well with humans six months ago may have drifted.
-- For production monitoring, volume matters more than per-query precision. An LLM judge at $0.06/eval lets you evaluate 16× more queries than an Agent judge at the same budget. More coverage with slightly lower precision often catches more issues than less coverage with higher precision.
+- For production monitoring, volume matters more than per-query precision. A cheaper LLM judge lets you evaluate many more queries than an Agent judge at the same budget. More coverage with slightly lower precision often catches more issues than less coverage with higher precision.
 - Log judge confidence alongside verdicts. Low-confidence LLM judge verdicts are natural candidates for Agent judge escalation. Many LLM-as-Judge prompts can be configured to output a confidence score.
-- The 16× cost difference and 62× latency difference are based on 2025 benchmarks (arXiv 2512.12791). These ratios change with model pricing updates — re-measure after major pricing changes.
+- The cost and latency ratios between LLM-as-Judge and Agent-as-Judge change with model pricing updates (see arXiv 2512.12791 for methodology). Re-measure after major pricing changes to keep your tiered strategy calibrated.
 
 ---
 
-## 4. Token Efficiency and Prompt Compression
+## Scenario 4: Token Efficiency and Prompt Compression
 
 Evaluate prompt compression techniques and token usage efficiency. Measure whether compressed prompts maintain task quality while reducing costs.
 
@@ -310,7 +316,7 @@ Apply compression in stages: (1) remove duplicate context passages, (2) condense
 
 ---
 
-## 5. End-to-End Cost Pareto Analysis
+## Scenario 5: End-to-End Cost Pareto Analysis
 
 Holistic evaluation of the cost-quality Pareto frontier across an agent system. Identify tasks above the Pareto curve where optimization has the highest ROI, and enforce quality floors to prevent cost optimization from degrading critical capabilities.
 
