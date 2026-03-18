@@ -70,8 +70,9 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Guides users through multi-step processes | [Process Navigation & Multi-Step Guidance](business-problem-scenarios/process-navigation-and-multistep-guidance.md) + [Trigger Routing](capability-scenarios/trigger-routing.md) + [Tone & Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) |
 | Routes conversations across multiple topics | [Triage & Routing](business-problem-scenarios/triage-and-routing.md) + [Trigger Routing](capability-scenarios/trigger-routing.md) + [Graceful Failure](capability-scenarios/graceful-failure-and-escalation.md) |
 | Serves external customers (not just internal employees) | [Tone & Response Quality](capability-scenarios/tone-helpfulness-and-response-quality.md) + [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
-| Handles sensitive data (PII, financial, health) | [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) |
-| Is about to be updated or republished | [Regression Testing](capability-scenarios/regression-testing.md) + all sections previously passing |
+| Handles sensitive data (PII, financial, health) | [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) + [Compliance](capability-scenarios/compliance-and-verbatim-content.md) + [Safety Stress Testing](capability-scenarios/safety-stress-testing.md) |
+| Is about to be updated or republished | [Regression Testing](capability-scenarios/regression-testing.md) + [Safety Stress Testing](capability-scenarios/safety-stress-testing.md) + all sections previously passing |
+| Needs quantified safety reliability (SLAs, compliance evidence) | [Safety Stress Testing](capability-scenarios/safety-stress-testing.md) + [Safety & Boundary](capability-scenarios/safety-and-boundary-enforcement.md) |
 
 > **Tip:** Most agents match multiple rows. An agent that answers HR questions from SharePoint AND submits PTO requests via Power Automate would combine rows 1 and 2.
 
@@ -97,6 +98,9 @@ After building your initial eval set, revisit the routing tables for missed dime
 | Confirm my agent escalates or declines appropriately when stuck | [Graceful Failure & Escalation](capability-scenarios/graceful-failure-and-escalation.md) |
 | Ensure nothing broke before I publish an update | [Regression Testing](capability-scenarios/regression-testing.md) |
 | Make sure my agent tailors answers to user-specific context | [Information Retrieval & Policy Q&A](business-problem-scenarios/information-retrieval-and-policy-qa.md) (personalization scenarios) |
+| Verify my agent's safety behavior is reliable and consistent, not just present | [Safety Stress Testing](capability-scenarios/safety-stress-testing.md) |
+| Quantify per-inference failure probability for safety-critical prompts | [Safety Stress Testing](capability-scenarios/safety-stress-testing.md) |
+| Validate cheaper safety evaluation methods against a ground-truth baseline | [Safety Stress Testing](capability-scenarios/safety-stress-testing.md) |
 
 ---
 
@@ -140,7 +144,8 @@ ai-agent-eval-scenario-library/
 │   ├── safety-and-boundary-enforcement.md
 │   ├── tone-helpfulness-and-response-quality.md
 │   ├── graceful-failure-and-escalation.md
-│   └── regression-testing.md
+│   ├── regression-testing.md
+│   └── safety-stress-testing.md
 │
 └── resources/
     ├── scenario-index.csv         ← Flat index of all scenarios (filterable)
